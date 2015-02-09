@@ -147,6 +147,23 @@ Errors
 textfield.setComponentError(new UserError("Bad value"));
 button.setComponentError(new UserError("Bad click"));
 
+getService().setSystemMessagesProvider(
+	new SystemMessagesProvider() {
+	@Override
+	public SystemMessages getSystemMessages(
+		SystemMessagesInfo systemMessagesInfo) {
+		CustomizedSystemMessages messages =
+		new CustomizedSystemMessages();
+		messages.setCommunicationErrorCaption("Comm Err");
+		messages.setCommunicationErrorMessage("This is bad.");
+		messages.setCommunicationErrorNotificationEnabled(true);
+		messages.setCommunicationErrorURL("http://vaadin.com/");
+		return messages;
+	}
+});
+
+Állapot megõrzés - @PreserveOnRefresh
+
 */
 
 
