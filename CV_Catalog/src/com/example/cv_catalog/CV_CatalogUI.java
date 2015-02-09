@@ -19,6 +19,7 @@ public class CV_CatalogUI extends UI {
 	@WebServlet(value = "/*", asyncSupported = true)
 	@VaadinServletConfiguration(productionMode = false, ui = CV_CatalogUI.class)
 	public static class Servlet extends VaadinServlet {
+		
 	}
 
 	@Override

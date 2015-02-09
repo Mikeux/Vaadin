@@ -7,6 +7,7 @@ import com.vaadin.ui.Notification;
 public class u {
 
 		public static void uzen(String msg) {
+			
 			// Notification with default settings for a warning
 			Notification notif = new Notification("Információ",msg,Notification.TYPE_WARNING_MESSAGE);
 			// Customize it
