@@ -1,0 +1,9 @@
+@import "addons.scss";
+@import "cv_catalog.scss";
+
+/* This file prefixes all rules with the theme name to avoid causing conflicts with other themes. */
+/* The actual styles should be defined in cv_catalog.scss */
+.cv_catalog {
+  @include addons;
+  @include cv_catalog;
+}
