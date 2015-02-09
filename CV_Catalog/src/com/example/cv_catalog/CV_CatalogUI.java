@@ -4,8 +4,10 @@ import javax.servlet.annotation.WebServlet;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
+import com.vaadin.server.DefaultErrorHandler;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Label;
@@ -36,6 +38,23 @@ public class CV_CatalogUI extends UI {
 			}
 		});
 		layout.addComponent(button);
+		
+		// Configure the error handler for the UI
+		UI.getCurrent().setErrorHandler(new DefaultErrorHandler() {
+			@Override
+			public void error(com.vaadin.server.ErrorEvent event) {
+			// Find the final cause
+			String cause = "<b>The click failed because:</b><br/>";
+			for (Throwable t = event.getThrowable(); t != null;
+			t = t.getCause())
+			if (t.getCause() == null) // We're at final cause
+				cause += t.getClass().getName() + "<br/>";
+				// Display the error message in a custom fashion
+				layout.addComponent(new Label(cause, ContentMode.HTML));
+				// Do the default error handling (optional)
+				doDefault(event);
+			}
+		});	
 	}
 
 }
