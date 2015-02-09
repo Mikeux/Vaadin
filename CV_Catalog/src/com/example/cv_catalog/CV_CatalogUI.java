@@ -31,7 +31,7 @@ public class CV_CatalogUI extends UI {
 		Button button = new Button("Click Me");
 		button.addClickListener(new Button.ClickListener() {
 			public void buttonClick(ClickEvent event) {
-				u.uzen("dsfdsff");
+				u.uzen("12312321");
 				layout.addComponent(new Label("Thank you for clicking"));
 			}
 		});
