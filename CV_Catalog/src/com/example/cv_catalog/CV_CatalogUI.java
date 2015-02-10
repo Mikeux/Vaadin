@@ -8,6 +8,7 @@ import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.CustomizedSystemMessages;
 import com.vaadin.server.DefaultErrorHandler;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.server.ServiceException;
 import com.vaadin.server.SessionDestroyEvent;
 import com.vaadin.server.SessionDestroyListener;
@@ -21,7 +22,10 @@ import com.vaadin.server.VaadinServlet;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Panel;
+import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
@@ -68,10 +72,39 @@ public class CV_CatalogUI extends UI {
 	@Override
 	protected void init(VaadinRequest request) {
 		final VerticalLayout layout = new VerticalLayout();
+		layout.setSizeFull();
+		
+		Panel panel = new Panel("Bejelentkezés");
+		panel.addStyleName("login_panel");
+		//panel.setSizeFull();
+		panel.setSizeUndefined(); // Shrink to fit content
+		layout.addComponent(panel);
+		        
+		// Create the content
+		FormLayout content = new FormLayout();
+		//content.addStyleName("mypanelcontent");
+		TextField nev = new TextField("Név:");
+		nev.setIcon(FontAwesome.USER);
+		nev.setRequired(true);
+		//nev.focus();
+		
+		TextField jelszo = new TextField("Jelszó:");
+		jelszo.setIcon(FontAwesome.LOCK);
+		jelszo.setRequired(true);
+		
+		Button belepes = new Button("Belépés");
+
+		content.addComponent(nev);
+		content.addComponent(jelszo);
+		content.addComponent(belepes);
+		
+		content.setSizeUndefined(); // Shrink to fit
+		content.setMargin(true);
+		panel.setContent(content);		
 		layout.setMargin(true);
 		setContent(layout);
 				
-		Button button = new Button("Click Me");
+		/*Button button = new Button("Click Me");
 		button.addClickListener(new Button.ClickListener() {
 			public void buttonClick(ClickEvent event) {
 				u.uzen("12312321");
@@ -92,6 +125,8 @@ public class CV_CatalogUI extends UI {
 		}));
 		// Notice quickly if other UIs are closed
 		setPollInterval(3000);
+		*/
+		
 		
 		// Configure the error handler for the UI
 		UI.getCurrent().setErrorHandler(new DefaultErrorHandler() {

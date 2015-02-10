@@ -164,8 +164,13 @@ getService().setSystemMessagesProvider(
 
 Állapot megõrzés - @PreserveOnRefresh
 
-*/
 
+
+Hasznos linkek - 
+http://demo.vaadin.com/book-examples-vaadin7/book/#application.architecture.globalaccess
+https://vaadin.com/tutorial
+
+*/
 
 public class u {
 
