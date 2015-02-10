@@ -169,6 +169,8 @@ getService().setSystemMessagesProvider(
 Hasznos linkek - 
 http://demo.vaadin.com/book-examples-vaadin7/book/#application.architecture.globalaccess
 https://vaadin.com/tutorial
+http://askvikrant.com/vaadin-7-for-beginners-part-2/
+https://vaadin.com/book/vaadin7/-/page/advanced.navigator.html
 
 */
 

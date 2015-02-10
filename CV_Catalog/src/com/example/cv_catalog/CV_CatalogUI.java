@@ -24,10 +24,12 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.themes.Reindeer;
 
 
 @SuppressWarnings("serial")
@@ -82,7 +84,7 @@ public class CV_CatalogUI extends UI {
 		        
 		// Create the content
 		FormLayout content = new FormLayout();
-		//content.addStyleName("mypanelcontent");
+		//content.addStyleName(Reindeer.LAYOUT_BLACK);
 		TextField nev = new TextField("Név:");
 		nev.setIcon(FontAwesome.USER);
 		nev.setRequired(true);
@@ -102,31 +104,28 @@ public class CV_CatalogUI extends UI {
 		content.setMargin(true);
 		panel.setContent(content);		
 		layout.setMargin(true);
-		setContent(layout);
-				
-		/*Button button = new Button("Click Me");
-		button.addClickListener(new Button.ClickListener() {
+		
+		belepes.addClickListener(new Button.ClickListener() {
 			public void buttonClick(ClickEvent event) {
-				u.uzen("12312321");
-				getUI().getPage().setLocation("http://www.sg.hu");
-				layout.addComponent(new Label("Thank you for clicking"));
+				u.uzen("Belépés???");
+				Notification.show("Sikeres belépés");
+				//getUI().getPage().setLocation("http://www.sg.hu");
+				//layout.addComponent(new Label("Thank you for clicking"));
 				//close();
 				
 			}
 		});
-		layout.addComponent(button);
-
 		
 		layout.addComponent(new Button("Logout", event -> {// Java 8
 			// Redirect this page immediately
-			getPage().setLocation("/myapp/logout.html");
+			getPage().setLocation("/CV_Catalog/logout.html");
 			// Close the session
 			getSession().close();
 		}));
 		// Notice quickly if other UIs are closed
-		setPollInterval(3000);
-		*/
+		//setPollInterval(3000);
 		
+		setContent(layout);
 		
 		// Configure the error handler for the UI
 		UI.getCurrent().setErrorHandler(new DefaultErrorHandler() {
