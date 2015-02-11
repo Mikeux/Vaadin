@@ -1,5 +1,6 @@
 package com.example.cv_catalog;
 
+import java.sql.*;
 import com.vaadin.server.Page;
 import com.vaadin.shared.Position;
 import com.vaadin.ui.Notification;
@@ -171,22 +172,49 @@ http://demo.vaadin.com/book-examples-vaadin7/book/#application.architecture.glob
 https://vaadin.com/tutorial
 http://askvikrant.com/vaadin-7-for-beginners-part-2/
 https://vaadin.com/book/vaadin7/-/page/advanced.navigator.html
+https://vaadin.com/wiki/-/wiki/Main/Creating%20a%20simple%20login%20view
+https://vaadin.com/wiki/-/wiki/Main/Using+parameters+with+views
 
+https://vaadin.com/book/vaadin7/-/page/advanced.navigator.html
 */
 
 public class u {
-
-		public static void uzen(String msg) {
-			
-			// Notification with default settings for a warning
-			Notification notif = new Notification("Információ",msg,Notification.TYPE_WARNING_MESSAGE);
-			// Customize it
-			notif.setDelayMsec(400);
-			notif.setPosition(Position.BOTTOM_RIGHT);
-			notif.setStyleName("u_uzen");
-			//notif.setIcon(new ThemeResource("img/reindeer.png"));
-			// Show it in the page
-			notif.show(Page.getCurrent());
-		}
+	
+	public static String db_param = "localhost/etyukod_te2015?user=root&password=rosivrepus02";
+    
+	public static void uzen(String msg) {
+		
+		// Notification with default settings for a warning
+		Notification notif = new Notification("Információ",msg,Notification.TYPE_WARNING_MESSAGE);
+		// Customize it
+		notif.setDelayMsec(400);
+		notif.setPosition(Position.BOTTOM_RIGHT);
+		notif.setStyleName("u_uzen");
+		//notif.setIcon(new ThemeResource("img/reindeer.png"));
+		// Show it in the page
+		notif.show(Page.getCurrent());
+	}
+	
+	public static void uzenHiba(String Title, String uzenet){
+		Notification.show(Title,uzenet, Notification.TYPE_ERROR_MESSAGE);		
+	}
+	
+	public static String GetSQLString(String SQL) {
+		String Ret = "";
+		//Class.forName("com.mysql.jdbc.Driver").newInstance();
+        try {
+            ///Connection con = DriverManager.getConnection("jdbc:mysql:///" + adatbazis, felhnev, jelszo);
+        	Connection con = DriverManager.getConnection("jdbc:mysql://"+db_param);
+        	Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(SQL);
+            if (rs.next()) {
+            	Ret = rs.getString(1);
+            }
+            con.close();
+        } catch (SQLException ex) {
+        	uzenHiba("Hiba",ex.toString());
+        }		
+        return Ret;
+	}
 	
 }
