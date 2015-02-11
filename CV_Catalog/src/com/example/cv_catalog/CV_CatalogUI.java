@@ -4,9 +4,12 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 
 import com.example.cv_catalog.views.LoginView;
+import com.example.cv_catalog.views.LoginView2;
+import com.example.cv_catalog.views.StartView;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.navigator.Navigator;
+import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.CustomizedSystemMessages;
 import com.vaadin.server.DefaultErrorHandler;
@@ -28,15 +31,15 @@ import com.vaadin.ui.UI;
 @SuppressWarnings("serial")
 @Theme("cv_catalog")
 public class CV_CatalogUI extends UI {
-
+	Navigator navigator;
+	
 	@WebServlet(value = "/*", asyncSupported = true)
 	@VaadinServletConfiguration(productionMode = false, ui = CV_CatalogUI.class)
 	public static class Servlet extends VaadinServlet implements SessionInitListener, SessionDestroyListener {
 		
 		protected void servletInitialized() throws ServletException {
 			super.servletInitialized();	
-					
-			
+
 			getService().addSessionInitListener(this);
 			getService().addSessionDestroyListener(this);
 			getService().setSystemMessagesProvider(
@@ -69,11 +72,15 @@ public class CV_CatalogUI extends UI {
 
 	@Override
 	protected void init(VaadinRequest request) {	
-		Navigator navigator = new Navigator(this, this);
-		navigator.addView("", new LoginView());
-		navigator.addView(LoginView.NAME, new LoginView());
-				
-		try {
+		navigator = new Navigator(this, this);
+		getPage().setTitle("Önéletrajz nyílvántartó");
+        
+        // Create and register the views
+        navigator.addView("", new StartView());
+        navigator.addView("login", LoginView.class);		
+		navigator.addView("login2", LoginView2.class); //http://localhost:8080/CV_Catalog/#!login2
+		
+		/*try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			//mysqlCon = DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "root");
 		} catch (Exception ex) {
@@ -84,7 +91,7 @@ public class CV_CatalogUI extends UI {
 			
 		//setContent(this);
 		
-		//u.uzen(u.GetSQLString("SELECT COUNT(*) FROM partner")+" db partner van.");
+		u.uzen(u.GetSQLString("SELECT COUNT(*) FROM felhasznalok")+" db felhasználó van.");*/
 		
 		/*layout.addComponent(new Button("Logout", event -> {// Java 8
 			// Redirect this page immediately
@@ -97,27 +104,32 @@ public class CV_CatalogUI extends UI {
 		
 		setContent(layout);*/
 		
-		getNavigator().addViewChangeListener(new ViewChangeListener() {
+		/*getNavigator().addViewChangeListener(new ViewChangeListener() {
 
             @Override
             public boolean beforeViewChange(ViewChangeEvent event) {
-            	/*
+            	
+            	//Notification.show(event.getParameters()+" - "+event.toString());
+            	
             	//Check if a user has logged in
                 boolean isLoggedIn = getSession().getAttribute("user") != null;
                 boolean isLoginView = event.getNewView() instanceof LoginView;
 
-                if (!isLoggedIn && !isLoginView) {
+                if (!isLoggedIn) {
                     // Redirect to login view always if a user has not yet
                     // logged in
-                    getNavigator().navigateTo(LoginView.NAME);
-                    return false;
+                    //getNavigator().navigateTo(LoginView.NAME);
+                	getUI().getNavigator().navigateTo("login");
+                    //return false;
 
-                } else if (isLoggedIn && isLoginView) {
+                } else  {
                     // If someone tries to access to login view while logged in,
                     // then cancel
-                    return false;
+                	//getNavigator().navigateTo(LoginView.NAME);
+                	getUI().getNavigator().navigateTo("");
+                    //return false;
                 }
-            	*/
+            	
                 return true;
             }
 
@@ -125,7 +137,7 @@ public class CV_CatalogUI extends UI {
             public void afterViewChange(ViewChangeEvent event) {
 
             }
-        });
+        });*/
 		
 		
 		// Configure the error handler for the UI

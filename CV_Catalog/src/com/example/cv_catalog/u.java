@@ -176,11 +176,19 @@ https://vaadin.com/wiki/-/wiki/Main/Creating%20a%20simple%20login%20view
 https://vaadin.com/wiki/-/wiki/Main/Using+parameters+with+views
 
 https://vaadin.com/book/vaadin7/-/page/advanced.navigator.html
+
+
+HTML -> View
+new CustomLayout(new ByteArrayInputStream("<b>Template</b>".getBytes()));
+vagy 
+new CustomLayout(new FileInputStream(file));
+
 */
 
 public class u {
 	
-	public static String db_param = "localhost/etyukod_te2015?user=root&password=rosivrepus02";
+	//public static String db_param = "localhost/etyukod_te2015?user=root&password=rosivrepus02";
+	public static String db_param = "localhost/cv_catalog?user=root&password=";
     
 	public static void uzen(String msg) {
 		
