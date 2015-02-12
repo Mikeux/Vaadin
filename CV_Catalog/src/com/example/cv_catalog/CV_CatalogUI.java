@@ -5,7 +5,10 @@ import javax.servlet.annotation.WebServlet;
 
 import com.example.cv_catalog.views.LoginView;
 import com.example.cv_catalog.views.LoginView2;
+import com.example.cv_catalog.views._MainView;
+import com.example.cv_catalog.views.MainView;
 import com.example.cv_catalog.views.StartView;
+import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.navigator.Navigator;
@@ -23,6 +26,8 @@ import com.vaadin.server.SystemMessagesInfo;
 import com.vaadin.server.SystemMessagesProvider;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
 
@@ -33,6 +38,7 @@ import com.vaadin.ui.UI;
 public class CV_CatalogUI extends UI {
 	Navigator navigator;
 	
+	@PreserveOnRefresh()
 	@WebServlet(value = "/*", asyncSupported = true)
 	@VaadinServletConfiguration(productionMode = false, ui = CV_CatalogUI.class)
 	public static class Servlet extends VaadinServlet implements SessionInitListener, SessionDestroyListener {
@@ -79,6 +85,18 @@ public class CV_CatalogUI extends UI {
         navigator.addView("", new StartView());
         navigator.addView("login", LoginView.class);		
 		navigator.addView("login2", LoginView2.class); //http://localhost:8080/CV_Catalog/#!login2
+		navigator.addView("_main", _MainView.class);
+		navigator.addView("main", new MainView(getUI()));
+		
+		getUI().getNavigator().navigateTo("main");
+		
+		//HorizontalLayout upperSection = new HorizontalLayout();
+		//upperSection.addComponent(u.MenuKeszites(getUI()));
+		
+		//setContent(new MainView(getGui));
+		
+		//setContent(new Label("sdfsdfd"));
+		
 		
 		/*try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -88,10 +106,10 @@ public class CV_CatalogUI extends UI {
 			//ex.printStackTrace();
 			//layout.addComponent(new Label("Hiba a MySQL JDBC Driver betöltésekor<br/>Oka: <font color='red'>: "+ex.toString()+"</font>",ContentMode.HTML));
 		}
-			
-		//setContent(this);
+					
+		u.uzen(u.GetSQLString("SELECT COUNT(*) FROM dokumentum_tipus")+" db ország van.");*/
 		
-		u.uzen(u.GetSQLString("SELECT COUNT(*) FROM felhasznalok")+" db felhasználó van.");*/
+		//setContent(this);
 		
 		/*layout.addComponent(new Button("Logout", event -> {// Java 8
 			// Redirect this page immediately

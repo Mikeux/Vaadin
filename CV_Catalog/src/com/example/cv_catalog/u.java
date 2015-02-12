@@ -1,9 +1,15 @@
 package com.example.cv_catalog;
 
 import java.sql.*;
+
 import com.vaadin.server.Page;
 import com.vaadin.shared.Position;
+import com.vaadin.ui.AbstractOrderedLayout;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.MenuBar;
+import com.vaadin.ui.MenuBar.MenuItem;
 import com.vaadin.ui.Notification;
+import com.vaadin.ui.UI;
 
 /*
 //Set the default locale of the UI
@@ -165,7 +171,14 @@ getService().setSystemMessagesProvider(
 
 Állapot megõrzés - @PreserveOnRefresh
 
-
+@Subscribe
+public void changePage(ChangePageEvent event) {
+    String url = event.getPageName();
+    if (event.hasId()) {
+        url += "/" + event.getEntityId();
+    }
+    navigator.navigateTo(url);
+}
 
 Hasznos linkek - 
 http://demo.vaadin.com/book-examples-vaadin7/book/#application.architecture.globalaccess
@@ -183,13 +196,19 @@ new CustomLayout(new ByteArrayInputStream("<b>Template</b>".getBytes()));
 vagy 
 new CustomLayout(new FileInputStream(file));
 
+
+PDF megnyitás book of vaadin -> 391
 */
 
 public class u {
 	
-	//public static String db_param = "localhost/etyukod_te2015?user=root&password=rosivrepus02";
-	public static String db_param = "localhost/cv_catalog?user=root&password=";
-    
+	public static String db_database = "79.172.252.29/gabtihu1_cv_catalog";
+	public static String db_name = "gabtihu1_mikeux";
+	public static String db_pass = "motnaf87";
+	//public static String db_param = "jdbc:mysql://localhost/etyukod_te2015?user=root&password=rosivrepus02";
+	//public static String db_param = "localhost/cv_catalog?user=root&password=";
+	//public static String db_param = "79.172.252.29/gabtihu1_cv_catalog?user=gabtihu1_mikeux&password=motnaf87";
+	
 	public static void uzen(String msg) {
 		
 		// Notification with default settings for a warning
@@ -212,7 +231,7 @@ public class u {
 		//Class.forName("com.mysql.jdbc.Driver").newInstance();
         try {
             ///Connection con = DriverManager.getConnection("jdbc:mysql:///" + adatbazis, felhnev, jelszo);
-        	Connection con = DriverManager.getConnection("jdbc:mysql://"+db_param);
+        	Connection con = DriverManager.getConnection("jdbc:mysql://"+db_database,db_name,db_pass);
         	Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(SQL);
             if (rs.next()) {
@@ -223,6 +242,69 @@ public class u {
         	uzenHiba("Hiba",ex.toString());
         }		
         return Ret;
+	}
+	
+	public static MenuBar MenuKeszites(UI ui) {
+		MenuBar barmenu = new MenuBar();
+		//layout.addComponent(barmenu);
+		
+		// A feedback component
+		//final Label selection = new Label("");
+		//layout.addComponent(selection);
+
+		// Define a common menu command for all the menu items.
+		MenuBar.Command mycommand = new MenuBar.Command() {
+			@Override
+			public void menuSelected(MenuItem selectedItem) {
+				u.uzen(selectedItem.getText());
+				//ui.getNavigator().navigateTo("login");
+		        //selection.setValue("Ordered a " + selectedItem.getText() +" from menu.");
+			}  
+		};
+		
+		MenuBar.Command kilepes = new MenuBar.Command() {
+			@Override
+			public void menuSelected(MenuItem selectedItem) {
+				ui.getSession().setAttribute("user", null);
+				ui.getNavigator().navigateTo("login");
+			}  
+		};
+		
+		ui.getNavigator().navigateTo("login");
+		        
+		// Another top-level item
+		MenuItem cvs = barmenu.addItem("Önéletrajzok", null, null);
+		cvs.addItem("Összes önéletrajz", null, mycommand);
+		cvs.addItem("Új önéletrajz",  null, mycommand);
+		
+		MenuItem szotarak = barmenu.addItem("Szótárak kezelése", null, null);
+		szotarak.addItem("Ország", null, mycommand); 	
+		szotarak.addItem("Pénznem", null, mycommand); 	
+		szotarak.addItem("Nyelv szint", null, mycommand); 	
+		szotarak.addItem("Képzési szint", null, mycommand); 	
+		
+		MenuItem exit = barmenu.addItem("Kijelentkezés", null, kilepes);
+		
+		/*
+		// A top-level menu item that opens a submenu
+		MenuItem drinks = barmenu.addItem("Beverages", null, null);
+
+		// Submenu item with a sub-submenu
+		MenuItem hots = drinks.addItem("Hot", null, null);
+		hots.addItem("Tea",new ThemeResource("icons/tea-16px.png"),    mycommand);
+		hots.addItem("Coffee",new ThemeResource("icons/coffee-16px.png"), mycommand);
+
+		// Another submenu item with a sub-submenu
+		MenuItem colds = drinks.addItem("Cold", null, null);
+		colds.addItem("Milk",      null, mycommand);
+		colds.addItem("Weissbier", null, mycommand);
+
+		// A sub-menu item after a separator
+		drinks.addSeparator();
+		drinks.addItem("Quit Drinking", null, null);
+		*/
+
+		return barmenu;
 	}
 	
 }
