@@ -26,6 +26,7 @@ public class LoginView2 extends VerticalLayout implements View {
 		layout.setSizeFull();
 		Panel panel = new Panel("Bejelentkezés2");
 		panel.addStyleName("login_panel");
+
 		//panel.setSizeFull();
 		panel.setSizeUndefined(); // Shrink to fit content
 		layout.addComponent(panel);

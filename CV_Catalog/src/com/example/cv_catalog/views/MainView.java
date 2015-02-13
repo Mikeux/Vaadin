@@ -1,6 +1,13 @@
 package com.example.cv_catalog.views;
 
+import java.util.Date;
+
+import javax.persistence.EntityManager;
+
+import model.Oneletrajz;
+
 import com.example.cv_catalog.u;
+import com.vaadin.addon.jpacontainer.JPAContainerFactory;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Button;
@@ -62,8 +69,15 @@ public class MainView extends VerticalLayout implements View {
 	
 	@Override
 	public void enter(ViewChangeEvent event) {
+		/*EntityManager em = JPAContainerFactory.createEntityManagerForPersistenceUnit("CV_Catalog");
 		
-		
+		em.getTransaction().begin();
+		//em.createQuery("DELETE FROM Person p").executeUpdate();
+		Oneletrajz ol = new Oneletrajz();
+		//ol.setFelhasznalok(11);
+		//ol.setHozzaadva(new Date());
+		em.persist(ol);
+		em.getTransaction().commit();*/
 	}
 	
 	public void addMenuOption(String caption, final Component component) {
