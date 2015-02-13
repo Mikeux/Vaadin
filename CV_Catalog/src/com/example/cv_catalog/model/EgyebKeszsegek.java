@@ -1,4 +1,4 @@
-package model;
+package com.example.cv_catalog.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
@@ -20,11 +20,6 @@ public class EgyebKeszsegek implements Serializable {
 	@Lob
 	private String leiras;
 
-	//bi-directional many-to-one association to Oneletrajz
-	@ManyToOne
-	@JoinColumn(name="fk_oneletrajz")
-	private Oneletrajz oneletrajz;
-
 	public EgyebKeszsegek() {
 	}
 
@@ -42,14 +37,6 @@ public class EgyebKeszsegek implements Serializable {
 
 	public void setLeiras(String leiras) {
 		this.leiras = leiras;
-	}
-
-	public Oneletrajz getOneletrajz() {
-		return this.oneletrajz;
-	}
-
-	public void setOneletrajz(Oneletrajz oneletrajz) {
-		this.oneletrajz = oneletrajz;
 	}
 
 }

@@ -1,4 +1,4 @@
-package model;
+package com.example.cv_catalog.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
@@ -25,16 +25,6 @@ public class Tanulmanyok implements Serializable {
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date vege;
-
-	//bi-directional many-to-one association to Oneletrajz
-	@ManyToOne
-	@JoinColumn(name="fk_oneletrajz")
-	private Oneletrajz oneletrajz;
-
-	//bi-directional many-to-one association to KepzesSzint
-	@ManyToOne
-	@JoinColumn(name="fk_kepzes_szint")
-	private KepzesSzint kepzesSzint;
 
 	public Tanulmanyok() {
 	}
@@ -69,22 +59,6 @@ public class Tanulmanyok implements Serializable {
 
 	public void setVege(Date vege) {
 		this.vege = vege;
-	}
-
-	public Oneletrajz getOneletrajz() {
-		return this.oneletrajz;
-	}
-
-	public void setOneletrajz(Oneletrajz oneletrajz) {
-		this.oneletrajz = oneletrajz;
-	}
-
-	public KepzesSzint getKepzesSzint() {
-		return this.kepzesSzint;
-	}
-
-	public void setKepzesSzint(KepzesSzint kepzesSzint) {
-		this.kepzesSzint = kepzesSzint;
 	}
 
 }

@@ -1,4 +1,4 @@
-package model;
+package com.example.cv_catalog.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
@@ -29,21 +29,6 @@ public class SzemelyesAdatok implements Serializable {
 
 	@Column(name="vezetek_nev")
 	private String vezetekNev;
-
-	//bi-directional many-to-one association to Oneletrajz
-	@ManyToOne
-	@JoinColumn(name="fk_oneletrajz")
-	private Oneletrajz oneletrajz;
-
-	//bi-directional many-to-one association to Orszagok
-	@ManyToOne
-	@JoinColumn(name="orszag", referencedColumnName="NYELVKOD")
-	private Orszagok orszagok;
-
-	//bi-directional many-to-one association to Nyelvek
-	@ManyToOne
-	@JoinColumn(name="anyanyelv")
-	private Nyelvek nyelvek;
 
 	public SzemelyesAdatok() {
 	}
@@ -86,30 +71,6 @@ public class SzemelyesAdatok implements Serializable {
 
 	public void setVezetekNev(String vezetekNev) {
 		this.vezetekNev = vezetekNev;
-	}
-
-	public Oneletrajz getOneletrajz() {
-		return this.oneletrajz;
-	}
-
-	public void setOneletrajz(Oneletrajz oneletrajz) {
-		this.oneletrajz = oneletrajz;
-	}
-
-	public Orszagok getOrszagok() {
-		return this.orszagok;
-	}
-
-	public void setOrszagok(Orszagok orszagok) {
-		this.orszagok = orszagok;
-	}
-
-	public Nyelvek getNyelvek() {
-		return this.nyelvek;
-	}
-
-	public void setNyelvek(Nyelvek nyelvek) {
-		this.nyelvek = nyelvek;
 	}
 
 }

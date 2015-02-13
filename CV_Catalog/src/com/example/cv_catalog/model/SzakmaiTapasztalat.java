@@ -1,4 +1,4 @@
-package model;
+package com.example.cv_catalog.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
@@ -34,11 +34,6 @@ public class SzakmaiTapasztalat implements Serializable {
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date vege;
-
-	//bi-directional many-to-one association to Oneletrajz
-	@ManyToOne
-	@JoinColumn(name="fk_oneletrajz")
-	private Oneletrajz oneletrajz;
 
 	public SzakmaiTapasztalat() {
 	}
@@ -89,14 +84,6 @@ public class SzakmaiTapasztalat implements Serializable {
 
 	public void setVege(Date vege) {
 		this.vege = vege;
-	}
-
-	public Oneletrajz getOneletrajz() {
-		return this.oneletrajz;
-	}
-
-	public void setOneletrajz(Oneletrajz oneletrajz) {
-		this.oneletrajz = oneletrajz;
 	}
 
 }

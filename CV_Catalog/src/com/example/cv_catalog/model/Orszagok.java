@@ -1,8 +1,8 @@
-package model;
+package com.example.cv_catalog.model;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
-import java.util.List;
 
 
 /**
@@ -10,6 +10,7 @@ import java.util.List;
  * 
  */
 @Entity
+@Table(name="orszagok")
 @NamedQuery(name="Orszagok.findAll", query="SELECT o FROM Orszagok o")
 public class Orszagok implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -19,13 +20,11 @@ public class Orszagok implements Serializable {
 
 	private String megnevezes;
 
+	private String nyelvkod;
+
 	private String penznem;
 
 	private String tipus;
-
-	//bi-directional many-to-one association to SzemelyesAdatok
-	@OneToMany(mappedBy="orszagok")
-	private List<SzemelyesAdatok> szemelyesAdatoks;
 
 	public Orszagok() {
 	}
@@ -46,6 +45,14 @@ public class Orszagok implements Serializable {
 		this.megnevezes = megnevezes;
 	}
 
+	public String getNyelvkod() {
+		return this.nyelvkod;
+	}
+
+	public void setNyelvkod(String nyelvkod) {
+		this.nyelvkod = nyelvkod;
+	}
+
 	public String getPenznem() {
 		return this.penznem;
 	}
@@ -60,28 +67,6 @@ public class Orszagok implements Serializable {
 
 	public void setTipus(String tipus) {
 		this.tipus = tipus;
-	}
-
-	public List<SzemelyesAdatok> getSzemelyesAdatoks() {
-		return this.szemelyesAdatoks;
-	}
-
-	public void setSzemelyesAdatoks(List<SzemelyesAdatok> szemelyesAdatoks) {
-		this.szemelyesAdatoks = szemelyesAdatoks;
-	}
-
-	public SzemelyesAdatok addSzemelyesAdatok(SzemelyesAdatok szemelyesAdatok) {
-		getSzemelyesAdatoks().add(szemelyesAdatok);
-		szemelyesAdatok.setOrszagok(this);
-
-		return szemelyesAdatok;
-	}
-
-	public SzemelyesAdatok removeSzemelyesAdatok(SzemelyesAdatok szemelyesAdatok) {
-		getSzemelyesAdatoks().remove(szemelyesAdatok);
-		szemelyesAdatok.setOrszagok(null);
-
-		return szemelyesAdatok;
 	}
 
 }

@@ -1,4 +1,4 @@
-package model;
+package com.example.cv_catalog.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
@@ -19,11 +19,6 @@ public class DokumentumTipus implements Serializable {
 
 	private String megnevezes;
 
-	//bi-directional many-to-one association to Dokumentumok
-	@ManyToOne
-	@JoinColumn(name="id", referencedColumnName="fk_dokumentum_tipus")
-	private Dokumentumok dokumentumok;
-
 	public DokumentumTipus() {
 	}
 
@@ -41,14 +36,6 @@ public class DokumentumTipus implements Serializable {
 
 	public void setMegnevezes(String megnevezes) {
 		this.megnevezes = megnevezes;
-	}
-
-	public Dokumentumok getDokumentumok() {
-		return this.dokumentumok;
-	}
-
-	public void setDokumentumok(Dokumentumok dokumentumok) {
-		this.dokumentumok = dokumentumok;
 	}
 
 }

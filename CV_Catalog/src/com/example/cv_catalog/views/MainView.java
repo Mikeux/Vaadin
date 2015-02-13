@@ -1,12 +1,15 @@
 package com.example.cv_catalog.views;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
-
-import model.Oneletrajz;
+import javax.persistence.TypedQuery;
 
 import com.example.cv_catalog.u;
+import com.example.cv_catalog.model.Oneletrajz;
 import com.vaadin.addon.jpacontainer.JPAContainerFactory;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -69,15 +72,25 @@ public class MainView extends VerticalLayout implements View {
 	
 	@Override
 	public void enter(ViewChangeEvent event) {
-		/*EntityManager em = JPAContainerFactory.createEntityManagerForPersistenceUnit("CV_Catalog");
+		EntityManager em = JPAContainerFactory.createEntityManagerForPersistenceUnit("CV_Catalog");
 		
-		em.getTransaction().begin();
+		/*em.getTransaction().begin();
 		//em.createQuery("DELETE FROM Person p").executeUpdate();
 		Oneletrajz ol = new Oneletrajz();
-		//ol.setFelhasznalok(11);
-		//ol.setHozzaadva(new Date());
+		ol.setfk_felhasznalok(11);
+		ol.setHozzaadva(new Date());
 		em.persist(ol);
 		em.getTransaction().commit();*/
+		
+		/*TypedQuery<Object[]> q = em.createQuery(
+			    "SELECT c.id, count(p.id) " +
+			    "FROM Product p LEFT JOIN p.category c " +
+			    "WHERE p.seller.id = :id " +
+			    "GROUP BY c.id", Object[].class).setParameter("id", 1);		
+		List<Object[]> resultList = q.getResultList();
+		Map<String, Long> resultMap = new HashMap<String, Long>(resultList.size());
+		for (Object[] result : resultList)
+		  resultMap.put((String)result[0], (Long)result[1]);*/	
 	}
 	
 	public void addMenuOption(String caption, final Component component) {

@@ -270,18 +270,34 @@ public class u {
 			}  
 		};
 		
+		MenuBar.Command szotar = new MenuBar.Command() {
+			@Override
+			public void menuSelected(MenuItem selectedItem) {
+				if(selectedItem.getText().equals("Ország")) {
+					ui.getNavigator().navigateTo("szotar_orszag");
+				}
+			}  
+		};
+		
+		MenuBar.Command kezdolap = new MenuBar.Command() {
+			@Override
+			public void menuSelected(MenuItem selectedItem) {
+				ui.getNavigator().navigateTo("main");
+			}  
+		};
+		
 		ui.getNavigator().navigateTo("login");
 		        
 		// Another top-level item
 		MenuItem cvs = barmenu.addItem("Önéletrajzok", null, null);
-		cvs.addItem("Összes önéletrajz", null, mycommand);
+		cvs.addItem("Összes önéletrajz", null, kezdolap);
 		cvs.addItem("Új önéletrajz",  null, mycommand);
 		
 		MenuItem szotarak = barmenu.addItem("Szótárak kezelése", null, null);
-		szotarak.addItem("Ország", null, mycommand); 	
-		szotarak.addItem("Pénznem", null, mycommand); 	
-		szotarak.addItem("Nyelv szint", null, mycommand); 	
-		szotarak.addItem("Képzési szint", null, mycommand); 	
+		szotarak.addItem("Ország", null, szotar); 	
+		szotarak.addItem("Pénznem", null, szotar); 	
+		szotarak.addItem("Nyelv szint", null, szotar); 	
+		szotarak.addItem("Képzési szint", null, szotar); 	
 		
 		MenuItem exit = barmenu.addItem("Kijelentkezés", null, kilepes);
 		

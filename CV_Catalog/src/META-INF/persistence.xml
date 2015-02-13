@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 	<persistence-unit name="CV_Catalog" transaction-type="RESOURCE_LOCAL">
-		<!--  
-		<class>model.DokumentumTipus</class>
-		<class>model.Dokumentumok</class>
-		<class>model.EgyebKeszsegek</class>
-		<class>model.Felhasznalok</class>
-		<class>model.KepzesSzint</class>
-		<class>model.NyelvSzint</class>
-		<class>model.Nyelvek</class>
-		<class>model.Nyelvismeret</class>
-		<class>model.Oneletrajz</class>
-		<class>model.Orszagok</class>
-		<class>model.SzakmaiTapasztalat</class>
-		<class>model.SzemelyesAdatok</class>
-		<class>model.Tanulmanyok</class>
-		 -->
+		<class>com.example.cv_catalog.model.DokumentumTipus</class>
+		<class>com.example.cv_catalog.model.Dokumentumok</class>
+		<class>com.example.cv_catalog.model.EgyebKeszsegek</class>
+		<class>com.example.cv_catalog.model.Felhasznalok</class>
+		<class>com.example.cv_catalog.model.KepzesSzint</class>
+		<class>com.example.cv_catalog.model.NyelvSzint</class>
+		<class>com.example.cv_catalog.model.Nyelvek</class>
+		<class>com.example.cv_catalog.model.Nyelvismeret</class>
+		<class>com.example.cv_catalog.model.Oneletrajz</class>
+		<class>com.example.cv_catalog.model.Orszagok</class>
+		<class>com.example.cv_catalog.model.SzakmaiTapasztalat</class>
+		<class>com.example.cv_catalog.model.SzemelyesAdatok</class>
+		<class>com.example.cv_catalog.model.Tanulmanyok</class>
 		<properties>
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://79.172.252.29/gabtihu1_cv_catalog"/>
 			<property name="javax.persistence.jdbc.user" value="gabtihu1_mikeux"/>

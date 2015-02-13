@@ -8,6 +8,7 @@ import com.example.cv_catalog.views.LoginView2;
 import com.example.cv_catalog.views._MainView;
 import com.example.cv_catalog.views.MainView;
 import com.example.cv_catalog.views.StartView;
+import com.example.cv_catalog.views.szotar_orszag;
 import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
@@ -88,6 +89,8 @@ public class CV_CatalogUI extends UI {
 		navigator.addView("_main", _MainView.class);
 		navigator.addView("main", new MainView(getUI()));
 		
+		navigator.addView("szotar_orszag", new szotar_orszag(getUI()));
+				
 		getUI().getNavigator().navigateTo("main");
 		
 		//HorizontalLayout upperSection = new HorizontalLayout();
