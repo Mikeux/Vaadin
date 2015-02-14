@@ -1,6 +1,7 @@
 package com.example.cv_catalog.model;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
 
 
@@ -9,6 +10,7 @@ import javax.persistence.*;
  * 
  */
 @Entity
+@Table(name="nyelvek")
 @NamedQuery(name="Nyelvek.findAll", query="SELECT n FROM Nyelvek n")
 public class Nyelvek implements Serializable {
 	private static final long serialVersionUID = 1L;

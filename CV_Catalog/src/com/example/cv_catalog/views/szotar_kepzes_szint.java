@@ -1,7 +1,8 @@
 package com.example.cv_catalog.views;
 
 import com.example.cv_catalog.u;
-import com.example.cv_catalog.model.Orszagok;
+import com.example.cv_catalog.model.KepzesSzint;
+import com.example.cv_catalog.model.NyelvSzint;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.JPAContainerFactory;
 import com.vaadin.data.Property;
@@ -12,13 +13,12 @@ import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.HorizontalSplitPanel;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
-public class szotar_orszag extends VerticalLayout implements View {
+public class szotar_kepzes_szint extends VerticalLayout implements View {
 	
 	private VerticalLayout mainLayout = new VerticalLayout();
 	private HorizontalSplitPanel splitLayout = new HorizontalSplitPanel();
@@ -26,61 +26,49 @@ public class szotar_orszag extends VerticalLayout implements View {
 	private FormLayout editLayout = new FormLayout();
 	
 	private FieldGroup editorFields = new FieldGroup();
-	private TextField orszag;
+	private TextField id_field;	
 	
-	public szotar_orszag(UI ui){
+	public szotar_kepzes_szint(UI ui){
 		mainLayout.setSizeFull();
 		mainLayout.addComponent(u.MenuKeszites(ui));
 		mainLayout.addComponent(splitLayout);
 		splitLayout.addComponents(tableLayout,editLayout);
-		splitLayout.setSplitPosition(50);
+		splitLayout.setSplitPosition(30);
 		splitLayout.setSizeFull();
 		tableLayout.setSizeFull();
 		editLayout.setSizeFull();
 		
-		JPAContainer<Orszagok> orszagok = JPAContainerFactory.make(Orszagok.class, "CV_Catalog");
+		JPAContainer<KepzesSzint> kepzes_szint = JPAContainerFactory.make(KepzesSzint.class, "CV_Catalog");
 		//orszagok.addEntity(new Orszagok("Marie-Louise Meilleur", 117));
 		//orszagok.sort(new String[]{"orszag", "megnevezes"},new boolean[]{false, false});
-		Table orszagokTable = new Table("Országok kezelése", orszagok);
-		orszagokTable.addValueChangeListener(new Property.ValueChangeListener() {
+		Table kepzes_szintTable = new Table("Képzés szintje", kepzes_szint);
+		kepzes_szintTable.addValueChangeListener(new Property.ValueChangeListener() {
 			public void valueChange(ValueChangeEvent event) {
-				Object orszagkod = orszagokTable.getValue();
-				if (orszagkod != null)
-					editorFields.setItemDataSource(orszagokTable.getItem(orszagkod));
-					orszag.setReadOnly(true);
+				Object id = kepzes_szintTable.getValue();
+				if (id != null)
+					editorFields.setItemDataSource(kepzes_szintTable.getItem(id));
+				id_field.setReadOnly(true);
 			}
 		});
 		
 		
-		orszagokTable.setVisibleColumns("orszag","megnevezes","tipus","penznem","nyelvkod");
-		orszagokTable.setSelectable(true);
-		orszagokTable.setImmediate(true);	
-		tableLayout.addComponent(orszagokTable);
+		kepzes_szintTable.setVisibleColumns("id","megnvezes");
+		kepzes_szintTable.setSelectable(true);
+		kepzes_szintTable.setImmediate(true);	
+		tableLayout.addComponent(kepzes_szintTable);
 		
-		orszag = new TextField("Ország kód:");	
-		editLayout.addComponents(orszag);
-		editorFields.bind(orszag, "orszag");	
+		id_field = new TextField("Id:");	
+		editLayout.addComponents(id_field);
+		editorFields.bind(id_field, "id");	
 		
-		TextField megnevezes = new TextField("Ország neve:");
-		editLayout.addComponents(megnevezes);
-		editorFields.bind(megnevezes, "megnevezes");	
-		
-		TextField tipus = new TextField("Ország tipus:");
-		editLayout.addComponents(tipus);
-		editorFields.bind(tipus, "tipus");	
-		
-		TextField penznem = new TextField("Ország pénzneme:");
-		editLayout.addComponents(penznem);
-		editorFields.bind(penznem, "penznem");	
-
-		TextField nyelvkod = new TextField("Ország nyelvkód:");
-		editLayout.addComponents(nyelvkod);
-		editorFields.bind(nyelvkod, "nyelvkod");			
+		TextField megnvezes = new TextField("Megnevezés:");	
+		megnvezes.setSizeFull();
+		editLayout.addComponents(megnvezes);
+		editorFields.bind(megnvezes, "megnvezes");	
 		
 		editorFields.setBuffered(false);
 
-		addComponent(mainLayout);
-		
+		addComponent(mainLayout);		
 	}
 	
 	@Override

@@ -16,7 +16,7 @@ public class KepzesSzint implements Serializable {
 
 	@Id
 	private int id;
-
+	
 	private String megnvezes;
 
 	public KepzesSzint() {

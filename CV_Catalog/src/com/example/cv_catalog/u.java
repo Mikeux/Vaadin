@@ -275,6 +275,12 @@ public class u {
 			public void menuSelected(MenuItem selectedItem) {
 				if(selectedItem.getText().equals("Ország")) {
 					ui.getNavigator().navigateTo("szotar_orszag");
+				} else if(selectedItem.getText().equals("Nyelv szint")) {
+					ui.getNavigator().navigateTo("szotar_nyelvi_szint");
+				} else if(selectedItem.getText().equals("Képzési szint")) {
+					ui.getNavigator().navigateTo("szotar_kepzes_szint");
+				} else if(selectedItem.getText().equals("Nyelvek")) {
+					ui.getNavigator().navigateTo("szotar_nyelvek");
 				}
 			}  
 		};
@@ -295,7 +301,7 @@ public class u {
 		
 		MenuItem szotarak = barmenu.addItem("Szótárak kezelése", null, null);
 		szotarak.addItem("Ország", null, szotar); 	
-		szotarak.addItem("Pénznem", null, szotar); 	
+		szotarak.addItem("Nyelvek", null, szotar); 	
 		szotarak.addItem("Nyelv szint", null, szotar); 	
 		szotarak.addItem("Képzési szint", null, szotar); 	
 		

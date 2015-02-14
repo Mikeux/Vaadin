@@ -8,6 +8,9 @@ import com.example.cv_catalog.views.LoginView2;
 import com.example.cv_catalog.views._MainView;
 import com.example.cv_catalog.views.MainView;
 import com.example.cv_catalog.views.StartView;
+import com.example.cv_catalog.views.szotar_kepzes_szint;
+import com.example.cv_catalog.views.szotar_nyelvek;
+import com.example.cv_catalog.views.szotar_nyelvi_szint;
 import com.example.cv_catalog.views.szotar_orszag;
 import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
@@ -90,7 +93,10 @@ public class CV_CatalogUI extends UI {
 		navigator.addView("main", new MainView(getUI()));
 		
 		navigator.addView("szotar_orszag", new szotar_orszag(getUI()));
-				
+		navigator.addView("szotar_nyelvi_szint", new szotar_nyelvi_szint(getUI()));
+		navigator.addView("szotar_kepzes_szint", new szotar_kepzes_szint(getUI()));
+		navigator.addView("szotar_nyelvek", new szotar_nyelvek(getUI()));
+		
 		getUI().getNavigator().navigateTo("main");
 		
 		//HorizontalLayout upperSection = new HorizontalLayout();
