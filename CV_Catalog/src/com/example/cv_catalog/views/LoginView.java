@@ -57,12 +57,12 @@ public class LoginView extends VerticalLayout implements View {
 		
 		belepes.addClickListener(new Button.ClickListener() {
 			public void buttonClick(ClickEvent event) {
-				u.uzen("Belépés???");
+				u.uzen("Belépés...");
 				Notification.show("Sikeres belépés");
-				//getUI().getPage().setLocation("http://www.sg.hu");
-				//layout.addComponent(new Label("Thank you for clicking"));
-				//close();
 				
+				getSession().setAttribute("user",nev.getValue());
+				getUI().getNavigator().navigateTo("main");
+				//http://www.objectdb.com/java/jpa/query/api
 			}
 		});
 	}

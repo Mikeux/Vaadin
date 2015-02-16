@@ -30,6 +30,11 @@ public class Orszagok implements Serializable {
 	private String tipus;
 
 	public Orszagok() {
+		this.orszag = "";
+		this.megnevezes = "";
+		this.nyelvkod = "";
+		this.penznem = "";
+		this.tipus = "";
 	}
 
 	public int getId() {

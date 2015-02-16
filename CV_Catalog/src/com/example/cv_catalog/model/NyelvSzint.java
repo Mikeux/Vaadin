@@ -22,6 +22,7 @@ public class NyelvSzint implements Serializable {
 	private String megnevezes;
 
 	public NyelvSzint() {
+		this.megnevezes = "";
 	}
 
 	public int getId() {

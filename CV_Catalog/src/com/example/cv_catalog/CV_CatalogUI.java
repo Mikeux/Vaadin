@@ -97,7 +97,9 @@ public class CV_CatalogUI extends UI {
 		navigator.addView("szotar_kepzes_szint", new szotar_kepzes_szint(getUI()));
 		navigator.addView("szotar_nyelvek", new szotar_nyelvek(getUI()));
 		
-		getUI().getNavigator().navigateTo("main");
+		boolean isLoggedIn = getSession().getAttribute("user") != null;
+		if(!isLoggedIn) getUI().getNavigator().navigateTo("login");
+		else  getUI().getNavigator().navigateTo("main");
 		
 		//HorizontalLayout upperSection = new HorizontalLayout();
 		//upperSection.addComponent(u.MenuKeszites(getUI()));

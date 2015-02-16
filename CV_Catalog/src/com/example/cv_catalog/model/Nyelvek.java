@@ -19,14 +19,19 @@ public class Nyelvek implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
+	@Column(name="nyelvkod")
 	private String nyelvkod;
 
 	@Column(name="KARAKTER_KESZLET")
 	private String karakterKeszlet;
 
+	@Column(name="nyelv")
 	private String nyelv;
 
 	public Nyelvek() {
+		this.nyelvkod = "";
+		this.nyelv ="";
+		this.karakterKeszlet ="";
 	}	
 	
 	public int getId() {

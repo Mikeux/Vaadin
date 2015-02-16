@@ -9,8 +9,10 @@ import com.vaadin.addon.jpacontainer.JPAContainerFactory;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.fieldgroup.FieldGroup;
+import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.HorizontalSplitPanel;
@@ -18,6 +20,8 @@ import com.vaadin.ui.Table;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
 
 public class szotar_nyelvi_szint extends VerticalLayout implements View {
 	
@@ -26,11 +30,14 @@ public class szotar_nyelvi_szint extends VerticalLayout implements View {
 	private HorizontalLayout tableLayout = new HorizontalLayout();
 	private FormLayout editLayout = new FormLayout();
 	
+	private Button addNewButton = new Button("Új");
+	private Button removeButton = new Button("Törlés");
+	
 	private Table nyelvi_szintTable;
 	private JPAContainer<NyelvSzint> nyelvi_szint;
 	
 	private FieldGroup editorFields = new FieldGroup();
-	private TextField id_field;	
+	private TextField id_field, megnevezes;
 	
 	public szotar_nyelvi_szint(UI ui){
 		mainLayout.setSizeFull();
@@ -65,14 +72,40 @@ public class szotar_nyelvi_szint extends VerticalLayout implements View {
 		editLayout.addComponents(id_field);
 		editorFields.bind(id_field, "id");	
 		
-		TextField megnevezes = new TextField("Megnevezés:");	
+		megnevezes = new TextField("Megnevezés:");	
 		editLayout.addComponents(megnevezes);
 		editorFields.bind(megnevezes, "megnevezes");	
+		megnevezes.setMaxLength(100);
+		megnevezes.setImmediate(true);		
+		megnevezes.addValidator(new StringLengthValidator("A nyelvkód hosszának 1 és 100 között kell lennie!",1, 100, false));
+
+		editLayout.addComponents(addNewButton,removeButton);
 		
 		editorFields.setBuffered(false);
 
-		addComponent(mainLayout);		
+		addComponent(mainLayout);
+		this.initListeners();
 	}
+	
+	public void initListeners() {
+		
+		addNewButton.addClickListener(new ClickListener() {
+			public void buttonClick(ClickEvent event) {
+				if(!megnevezes.getValue().equals("")) {
+					nyelvi_szint.addEntity(new NyelvSzint());
+					nyelvi_szintTable.select(nyelvi_szint.getIdByIndex(nyelvi_szint.size()-1));	
+					nyelvi_szintTable.setCurrentPageFirstItemIndex(nyelvi_szint.size()-1);
+				}
+			}
+		});
+		removeButton.addClickListener(new ClickListener() {
+			public void buttonClick(ClickEvent event) {
+				Object contactId = nyelvi_szintTable.getValue();
+				nyelvi_szintTable.removeItem(contactId);
+				if(nyelvi_szint.size()  > 0) nyelvi_szintTable.select(nyelvi_szint.getIdByIndex(0));
+			}
+		});		
+	}	
 	
 	@Override
 	public void enter(ViewChangeEvent event) {

@@ -11,6 +11,7 @@ import javax.persistence.TypedQuery;
 import com.example.cv_catalog.u;
 import com.example.cv_catalog.model.Oneletrajz;
 import com.vaadin.addon.jpacontainer.JPAContainerFactory;
+import com.vaadin.event.ItemClickEvent;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Button;
@@ -19,6 +20,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.HorizontalSplitPanel;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.Tree;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
@@ -31,13 +33,15 @@ public class MainView extends VerticalLayout implements View {
 	private VerticalLayout menuLayout = new VerticalLayout();
 	private VerticalLayout contentLayout = new VerticalLayout();
 	
+	private Tree menuTree;
+	
 	public MainView(UI ui){
 		setSizeFull();		
 		mainSection.setSizeFull();	
 		
 		//upperSection.addComponent(new Label("Header"));
 		upperSection.addComponent(u.MenuKeszites(ui));
-		menuLayout.addComponent(new Label("Menu"));
+		//menuLayout.addComponent(new Label("Menu"));
 		contentLayout.addComponent(new Label("Content"));
 		lowerSection.addComponents(menuLayout,contentLayout);
 				
@@ -58,16 +62,30 @@ public class MainView extends VerticalLayout implements View {
 		
 		mainSection.setExpandRatio(lowerSection, 1);
 		
-		Tree tree = new Tree("Menü");
-		tree.addItem("Önéletrajzok");
-		tree.addItem("Új önéletrajz");
-		tree.addItem("Kilépés");
-		menuLayout.addComponent(tree);		
+		menuTree = new Tree("Önéletrajz adatai");
+		menuTree.addItem("Személyes adatok");
+		menuTree.addItem("Tanulmányok");
+		menuTree.addItem("Szakmai tapasztalat");
+		menuTree.addItem("Nyelvismeret");
+		menuTree.addItem("Egyéb készségek");
+		menuTree.addItem("Dokumentációk");
+		menuLayout.addComponent(menuTree);		
 		
 		//this.addMenuOption("Option 1", new Label("Component 1"));
 		//this.addMenuOption("Option 2", new Label("Component 2"));
+		init();
 		
 		this.showBorders();
+	}
+	
+	private void init(){
+		menuTree.addItemClickListener(new ItemClickEvent.ItemClickListener() {
+			public void itemClick(ItemClickEvent event) {
+		        // Pick only left mouse clicks
+		        if (event.getButton() == ItemClickEvent.BUTTON_LEFT)
+		            Notification.show("Left click",Notification.Type.HUMANIZED_MESSAGE);
+		    }
+		});
 	}
 	
 	@Override
