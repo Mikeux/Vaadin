@@ -16,6 +16,9 @@ public class Orszagok implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
+	
 	private String orszag;
 
 	private String megnevezes;
@@ -29,6 +32,14 @@ public class Orszagok implements Serializable {
 	public Orszagok() {
 	}
 
+	public int getId() {
+		return this.id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+	
 	public String getOrszag() {
 		return this.orszag;
 	}

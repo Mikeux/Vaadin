@@ -25,8 +25,11 @@ public class szotar_orszag extends VerticalLayout implements View {
 	private HorizontalLayout tableLayout = new HorizontalLayout();
 	private FormLayout editLayout = new FormLayout();
 	
+	private JPAContainer<Orszagok> orszagok;
+	private Table orszagokTable;
+	
 	private FieldGroup editorFields = new FieldGroup();
-	private TextField orszag;
+	private TextField id;
 	
 	public szotar_orszag(UI ui){
 		mainLayout.setSizeFull();
@@ -38,26 +41,30 @@ public class szotar_orszag extends VerticalLayout implements View {
 		tableLayout.setSizeFull();
 		editLayout.setSizeFull();
 		
-		JPAContainer<Orszagok> orszagok = JPAContainerFactory.make(Orszagok.class, "CV_Catalog");
+		orszagok = JPAContainerFactory.make(Orszagok.class, "CV_Catalog");
 		//orszagok.addEntity(new Orszagok("Marie-Louise Meilleur", 117));
 		//orszagok.sort(new String[]{"orszag", "megnevezes"},new boolean[]{false, false});
-		Table orszagokTable = new Table("Országok kezelése", orszagok);
+		orszagokTable = new Table("Országok kezelése", orszagok);
 		orszagokTable.addValueChangeListener(new Property.ValueChangeListener() {
 			public void valueChange(ValueChangeEvent event) {
 				Object orszagkod = orszagokTable.getValue();
 				if (orszagkod != null)
 					editorFields.setItemDataSource(orszagokTable.getItem(orszagkod));
-					orszag.setReadOnly(true);
+					id.setReadOnly(true);
 			}
 		});
 		
 		
-		orszagokTable.setVisibleColumns("orszag","megnevezes","tipus","penznem","nyelvkod");
+		orszagokTable.setVisibleColumns("id","orszag","megnevezes","tipus","penznem","nyelvkod");
 		orszagokTable.setSelectable(true);
 		orszagokTable.setImmediate(true);	
 		tableLayout.addComponent(orszagokTable);
 		
-		orszag = new TextField("Ország kód:");	
+		id = new TextField("Ország id:");	
+		editLayout.addComponents(id);
+		editorFields.bind(id, "id");	
+		
+		TextField orszag = new TextField("Ország kód:");	
 		editLayout.addComponents(orszag);
 		editorFields.bind(orszag, "orszag");	
 		
@@ -85,7 +92,6 @@ public class szotar_orszag extends VerticalLayout implements View {
 	
 	@Override
 	public void enter(ViewChangeEvent event) {
-		// TODO Auto-generated method stub
-		
+		if(orszagok.size()  > 0) orszagokTable.select(orszagok.getIdByIndex(0));				
 	}
 }

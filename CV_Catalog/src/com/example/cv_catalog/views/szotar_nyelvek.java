@@ -24,9 +24,11 @@ public class szotar_nyelvek  extends VerticalLayout implements View {
 	private HorizontalSplitPanel splitLayout = new HorizontalSplitPanel();
 	private HorizontalLayout tableLayout = new HorizontalLayout();
 	private FormLayout editLayout = new FormLayout();
+	private Table nyelvekTable;
+	private JPAContainer<Nyelvek> nyelvek;
 	
 	private FieldGroup editorFields = new FieldGroup();
-	private TextField nyelvkod;
+	private TextField id;
 	
 	public szotar_nyelvek(UI ui){
 		mainLayout.setSizeFull();
@@ -38,24 +40,28 @@ public class szotar_nyelvek  extends VerticalLayout implements View {
 		tableLayout.setSizeFull();
 		editLayout.setSizeFull();
 		
-		JPAContainer<Nyelvek> nyelvek = JPAContainerFactory.make(Nyelvek.class, "CV_Catalog");
-		Table nyelvekTable = new Table("Nyelvek kezelése", nyelvek);
+		nyelvek = JPAContainerFactory.make(Nyelvek.class, "CV_Catalog");
+		nyelvekTable = new Table("Nyelvek kezelése", nyelvek);
 		nyelvekTable.addValueChangeListener(new Property.ValueChangeListener() {
 			public void valueChange(ValueChangeEvent event) {
 				Object o = nyelvekTable.getValue();
 				if (o != null)
 					editorFields.setItemDataSource(nyelvekTable.getItem(o));
-				nyelvkod.setReadOnly(true);
+				id.setReadOnly(true);
 			}
 		});
 		
 		
-		nyelvekTable.setVisibleColumns("nyelvkod","nyelv","karakterKeszlet");
+		nyelvekTable.setVisibleColumns("id","nyelvkod","nyelv","karakterKeszlet");
 		nyelvekTable.setSelectable(true);
 		nyelvekTable.setImmediate(true);	
 		tableLayout.addComponent(nyelvekTable);
+
+		id = new TextField("Nyelvkód id:");	
+		editLayout.addComponents(id);
+		editorFields.bind(id, "id");		
 		
-		nyelvkod = new TextField("Nyelvkód kód:");	
+		TextField nyelvkod = new TextField("Nyelvkód kód:");	
 		editLayout.addComponents(nyelvkod);
 		editorFields.bind(nyelvkod, "nyelvkod");	
 		
@@ -75,7 +81,6 @@ public class szotar_nyelvek  extends VerticalLayout implements View {
 	
 	@Override
 	public void enter(ViewChangeEvent event) {
-		// TODO Auto-generated method stub
-		
+		if(nyelvek.size()  > 0) nyelvekTable.select(nyelvek.getIdByIndex(0));		
 	}
 }

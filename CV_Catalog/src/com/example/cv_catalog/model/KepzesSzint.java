@@ -15,11 +15,22 @@ public class KepzesSzint implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
 	private String megnvezes;
 
 	public KepzesSzint() {
+	}
+	
+	public KepzesSzint(String megnevezes) {
+		this.megnvezes = megnevezes;
+	}
+
+	
+	public KepzesSzint(int id, String megnevezes) {
+		this.id = id;
+		this.megnvezes = megnevezes;
 	}
 
 	public int getId() {

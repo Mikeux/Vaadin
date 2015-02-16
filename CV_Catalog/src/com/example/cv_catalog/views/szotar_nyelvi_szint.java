@@ -2,6 +2,7 @@ package com.example.cv_catalog.views;
 
 import com.example.cv_catalog.u;
 import com.example.cv_catalog.model.NyelvSzint;
+import com.example.cv_catalog.model.Nyelvek;
 import com.example.cv_catalog.model.Orszagok;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.JPAContainerFactory;
@@ -25,6 +26,9 @@ public class szotar_nyelvi_szint extends VerticalLayout implements View {
 	private HorizontalLayout tableLayout = new HorizontalLayout();
 	private FormLayout editLayout = new FormLayout();
 	
+	private Table nyelvi_szintTable;
+	private JPAContainer<NyelvSzint> nyelvi_szint;
+	
 	private FieldGroup editorFields = new FieldGroup();
 	private TextField id_field;	
 	
@@ -38,10 +42,10 @@ public class szotar_nyelvi_szint extends VerticalLayout implements View {
 		tableLayout.setSizeFull();
 		editLayout.setSizeFull();
 		
-		JPAContainer<NyelvSzint> nyelvi_szint = JPAContainerFactory.make(NyelvSzint.class, "CV_Catalog");
+		nyelvi_szint = JPAContainerFactory.make(NyelvSzint.class, "CV_Catalog");
 		//orszagok.addEntity(new Orszagok("Marie-Louise Meilleur", 117));
 		//orszagok.sort(new String[]{"orszag", "megnevezes"},new boolean[]{false, false});
-		Table nyelvi_szintTable = new Table("Nyelvtudás szintje", nyelvi_szint);
+		nyelvi_szintTable = new Table("Nyelvtudás szintje", nyelvi_szint);
 		nyelvi_szintTable.addValueChangeListener(new Property.ValueChangeListener() {
 			public void valueChange(ValueChangeEvent event) {
 				Object id = nyelvi_szintTable.getValue();
@@ -72,7 +76,6 @@ public class szotar_nyelvi_szint extends VerticalLayout implements View {
 	
 	@Override
 	public void enter(ViewChangeEvent event) {
-		// TODO Auto-generated method stub
-		
+		if(nyelvi_szint.size()  > 0) nyelvi_szintTable.select(nyelvi_szint.getIdByIndex(0));
 	}
 }
