@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
+import com.example.cv_catalog.model.Felhasznalok;
+
 import java.util.Date;
 
 
@@ -21,12 +23,15 @@ public class Oneletrajz implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	private int fk_felhasznalok;
+	@ManyToOne
+	@JoinColumn(name="fk_felhasznalok")
+	private Felhasznalok felhasznalok;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date hozzaadva;
 
 	public Oneletrajz() {
+		
 	}
 
 	public int getId() {
@@ -37,20 +42,20 @@ public class Oneletrajz implements Serializable {
 		this.id = id;
 	}
 	
-	public int getfk_felhasznalok() {
-		return this.fk_felhasznalok;
-	}
-
-	public void setfk_felhasznalok(int fk) {
-		this.fk_felhasznalok = fk;
-	}
-
 	public Date getHozzaadva() {
 		return this.hozzaadva;
 	}
 
 	public void setHozzaadva(Date hozzaadva) {
 		this.hozzaadva = hozzaadva;
+	}
+	
+	public Felhasznalok getFelhasznalok() {
+		return this.felhasznalok;
+	}
+
+	public void setFelhasznalok(Felhasznalok felhasznalok) {
+		this.felhasznalok = felhasznalok;
 	}
 
 }

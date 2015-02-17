@@ -5,6 +5,7 @@ import javax.servlet.annotation.WebServlet;
 
 import com.example.cv_catalog.views.LoginView;
 import com.example.cv_catalog.views.LoginView2;
+import com.example.cv_catalog.views.OneletrajzEdit;
 import com.example.cv_catalog.views._MainView;
 import com.example.cv_catalog.views.MainView;
 import com.example.cv_catalog.views.StartView;
@@ -96,6 +97,8 @@ public class CV_CatalogUI extends UI {
 		navigator.addView("szotar_nyelvi_szint", new szotar_nyelvi_szint(getUI()));
 		navigator.addView("szotar_kepzes_szint", new szotar_kepzes_szint(getUI()));
 		navigator.addView("szotar_nyelvek", new szotar_nyelvek(getUI()));
+		
+		navigator.addView("cv_edit", new OneletrajzEdit(getUI()));
 		
 		boolean isLoggedIn = getSession().getAttribute("user") != null;
 		if(!isLoggedIn) getUI().getNavigator().navigateTo("login");

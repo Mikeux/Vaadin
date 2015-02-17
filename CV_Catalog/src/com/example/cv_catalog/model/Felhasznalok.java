@@ -1,8 +1,12 @@
 package com.example.cv_catalog.model;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.Set;
 
 import javax.persistence.*;
+
+import com.example.cv_catalog.model.Oneletrajz;
 
 
 /**
@@ -10,6 +14,7 @@ import javax.persistence.*;
  * 
  */
 @Entity
+@Table(name="felhasznalok")
 @NamedQuery(name="Felhasznalok.findAll", query="SELECT f FROM Felhasznalok f")
 public class Felhasznalok implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -23,6 +28,9 @@ public class Felhasznalok implements Serializable {
 
 	private String nev;
 
+	@OneToMany(mappedBy="felhasznalok")
+	private List<Oneletrajz> oneletrajzok;
+	
 	public Felhasznalok() {
 	}
 
@@ -49,5 +57,27 @@ public class Felhasznalok implements Serializable {
 	public void setNev(String nev) {
 		this.nev = nev;
 	}
+	
+	public List<Oneletrajz> getOneletrajzs() {
+		return this.oneletrajzok;
+	}
+
+	public void setOneletrajzs(List<Oneletrajz> oneletrajzok) {
+		this.oneletrajzok = oneletrajzok;
+	}
+
+	public Oneletrajz addOneletrajz(Oneletrajz oneletrajzok) {
+		getOneletrajzs().add(oneletrajzok);
+		oneletrajzok.setFelhasznalok(this);
+
+		return oneletrajzok;
+	}
+
+	public Oneletrajz removeOneletrajz(Oneletrajz oneletrajzok) {
+		getOneletrajzs().remove(oneletrajzok);
+		oneletrajzok.setFelhasznalok(null);
+
+		return oneletrajzok;
+	}	
 
 }

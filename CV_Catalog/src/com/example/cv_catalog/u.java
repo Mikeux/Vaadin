@@ -292,12 +292,19 @@ public class u {
 			}  
 		};
 		
+		MenuBar.Command cvedit = new MenuBar.Command() {
+			@Override
+			public void menuSelected(MenuItem selectedItem) {
+				ui.getNavigator().navigateTo("cv_edit/0");
+			}  
+		};
+		
 		ui.getNavigator().navigateTo("login");
 		        
 		// Another top-level item
 		MenuItem cvs = barmenu.addItem("Önéletrajzok", null, null);
 		cvs.addItem("Összes önéletrajz", null, kezdolap);
-		cvs.addItem("Új önéletrajz",  null, mycommand);
+		cvs.addItem("Új önéletrajz",  null, cvedit);
 		
 		MenuItem szotarak = barmenu.addItem("Szótárak kezelése", null, null);
 		szotarak.addItem("Ország", null, szotar); 	

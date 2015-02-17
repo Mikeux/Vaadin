@@ -20,6 +20,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.HorizontalSplitPanel;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.TextField;
@@ -44,6 +45,11 @@ public class szotar_kepzes_szint extends VerticalLayout implements View {
 	
 	private FieldGroup editorFields = new FieldGroup();
 	private TextField id_field;	
+	
+	/*public szotar_kepzes_szint(){
+		mainLayout.addComponent(new Label("sdfsdf asdf asdf sd fasdf asd "));
+		addComponent(mainLayout);
+	}*/
 	
 	public szotar_kepzes_szint(UI ui){
 		mainLayout.setSizeFull();
