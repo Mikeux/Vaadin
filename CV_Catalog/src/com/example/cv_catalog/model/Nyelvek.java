@@ -1,6 +1,7 @@
 package com.example.cv_catalog.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -18,6 +19,9 @@ public class Nyelvek implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+	
+	@OneToMany(mappedBy="nyelvek")
+	private List<SzemelyesAdatok> szemelyesAdatoks;
 	
 	@Column(name="nyelvkod")
 	private String nyelvkod;
@@ -65,6 +69,29 @@ public class Nyelvek implements Serializable {
 
 	public void setNyelv(String nyelv) {
 		this.nyelv = nyelv;
+	}
+	
+
+	public List<SzemelyesAdatok> getSzemelyesAdatoks() {
+		return this.szemelyesAdatoks;
+	}
+
+	public void setSzemelyesAdatoks(List<SzemelyesAdatok> szemelyesAdatoks) {
+		this.szemelyesAdatoks = szemelyesAdatoks;
+	}
+
+	public SzemelyesAdatok addSzemelyesAdatok(SzemelyesAdatok szemelyesAdatok) {
+		getSzemelyesAdatoks().add(szemelyesAdatok);
+		szemelyesAdatok.setNyelvek(this);
+
+		return szemelyesAdatok;
+	}
+
+	public SzemelyesAdatok removeSzemelyesAdatok(SzemelyesAdatok szemelyesAdatok) {
+		getSzemelyesAdatoks().remove(szemelyesAdatok);
+		szemelyesAdatok.setNyelvek(null);
+
+		return szemelyesAdatok;
 	}
 
 }

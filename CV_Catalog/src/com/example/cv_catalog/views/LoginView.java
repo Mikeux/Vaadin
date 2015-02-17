@@ -61,7 +61,7 @@ public class LoginView extends VerticalLayout implements View {
 				Notification.show("Sikeres belépés");
 				
 				getSession().setAttribute("user",nev.getValue());
-				getUI().getNavigator().navigateTo("main");
+				getUI().getNavigator().navigateTo("cvs");
 				//http://www.objectdb.com/java/jpa/query/api
 			}
 		});

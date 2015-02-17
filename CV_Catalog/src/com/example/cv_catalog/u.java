@@ -1,7 +1,16 @@
 package com.example.cv_catalog;
 
 import java.sql.*;
+import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+
+import com.example.cv_catalog.model.Felhasznalok;
+import com.example.cv_catalog.model.Oneletrajz;
+import com.vaadin.addon.jpacontainer.JPAContainer;
+import com.vaadin.addon.jpacontainer.JPAContainerFactory;
 import com.vaadin.server.Page;
 import com.vaadin.shared.Position;
 import com.vaadin.ui.AbstractOrderedLayout;
@@ -202,6 +211,9 @@ PDF megnyitás book of vaadin -> 391
 
 public class u {
 	
+	public static Felhasznalok LoginFelhasznalo;
+	public static EntityManager EntityManager = JPAContainerFactory.createEntityManagerForPersistenceUnit("CV_Catalog");
+	
 	public static String db_database = "79.172.252.29/gabtihu1_cv_catalog";
 	public static String db_name = "gabtihu1_mikeux";
 	public static String db_pass = "motnaf87";
@@ -245,6 +257,14 @@ public class u {
 	}
 	
 	public static MenuBar MenuKeszites(UI ui) {
+		//TypedQuery<Felhasznalok> query = EntityManager.createQuery("SELECT f FROM felhasznalok f", Felhasznalok.class);
+		//u.LoginFelhasznalo  = query.getSingleResult();	
+		u.LoginFelhasznalo = u.EntityManager.find(Felhasznalok.class, 1);
+		//if(results.size() > 0) = results.get(0);
+		
+		//u.uzen(u.LoginFelhasznalo.getNev());
+
+		
 		MenuBar barmenu = new MenuBar();
 		//layout.addComponent(barmenu);
 		
@@ -288,14 +308,23 @@ public class u {
 		MenuBar.Command kezdolap = new MenuBar.Command() {
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
-				ui.getNavigator().navigateTo("main");
+				ui.getNavigator().navigateTo("cvs");
 			}  
 		};
 		
+		//http://www.objectdb.com/java/jpa/persistence/crud
 		MenuBar.Command cvedit = new MenuBar.Command() {
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
-				ui.getNavigator().navigateTo("cv_edit/0");
+				//JPAContainer<Oneletrajz> cvs = JPAContainerFactory.make(Oneletrajz.class, "CV_Catalog");
+				//cvs.addEntity(new Oneletrajz());
+				Oneletrajz cv = new Oneletrajz();
+				cv.setFelhasznalok(u.LoginFelhasznalo);
+				cv.setHozzaadva(new java.util.Date());
+				u.EntityManager.getTransaction().begin();
+				u.EntityManager.persist(cv);
+				u.EntityManager.getTransaction().commit();
+				ui.getNavigator().navigateTo("cv_edit/"+cv.getId());
 			}  
 		};
 		

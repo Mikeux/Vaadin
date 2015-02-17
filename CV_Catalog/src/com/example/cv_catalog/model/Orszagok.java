@@ -1,6 +1,7 @@
 package com.example.cv_catalog.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -18,6 +19,10 @@ public class Orszagok implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+
+	//bi-directional many-to-one association to SzemelyesAdatok
+	@OneToMany(mappedBy="orszagok")
+	private List<SzemelyesAdatok> szemelyesAdatoks;
 	
 	private String orszag;
 
@@ -85,4 +90,25 @@ public class Orszagok implements Serializable {
 		this.tipus = tipus;
 	}
 
+	public List<SzemelyesAdatok> getSzemelyesAdatoks() {
+		return this.szemelyesAdatoks;
+	}
+
+	public void setSzemelyesAdatoks(List<SzemelyesAdatok> szemelyesAdatoks) {
+		this.szemelyesAdatoks = szemelyesAdatoks;
+	}
+
+	public SzemelyesAdatok addSzemelyesAdatok(SzemelyesAdatok szemelyesAdatok) {
+		getSzemelyesAdatoks().add(szemelyesAdatok);
+		szemelyesAdatok.setOrszagok(this);
+
+		return szemelyesAdatok;
+	}
+
+	public SzemelyesAdatok removeSzemelyesAdatok(SzemelyesAdatok szemelyesAdatok) {
+		getSzemelyesAdatoks().remove(szemelyesAdatok);
+		szemelyesAdatok.setOrszagok(null);
+
+		return szemelyesAdatok;
+	}
 }
