@@ -55,11 +55,9 @@ public class CV_CatalogUI extends UI {
 			getService().addSessionInitListener(this);
 			getService().addSessionDestroyListener(this);
 			getService().setSystemMessagesProvider(
-					new SystemMessagesProvider() {
-					public SystemMessages getSystemMessages(
-						SystemMessagesInfo systemMessagesInfo) {
-						CustomizedSystemMessages messages =
-						new CustomizedSystemMessages();
+				new SystemMessagesProvider() {
+					public SystemMessages getSystemMessages(SystemMessagesInfo systemMessagesInfo) {
+						CustomizedSystemMessages messages = new CustomizedSystemMessages();
 						messages.setCommunicationErrorCaption("Kommunikációs hiba!");
 						messages.setCommunicationErrorMessage("Ez nem valami jó!");
 						messages.setCommunicationErrorNotificationEnabled(true);
