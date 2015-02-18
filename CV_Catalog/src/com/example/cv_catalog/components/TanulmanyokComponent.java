@@ -55,7 +55,7 @@ public class TanulmanyokComponent extends CustomComponent {
 		Filter filter = new Compare.Equal("oneletrajz.id", cv.getId());
 		tanulmanyAdatok.addContainerFilter(filter);
 		
-		tanulmanyAdatokTable = new Table("Személyes adatok nyílvántartása", tanulmanyAdatok);
+		tanulmanyAdatokTable = new Table("Tanulmányok nyílvántartása", tanulmanyAdatok);
 		tanulmanyAdatokTable.addValueChangeListener(new Property.ValueChangeListener() {
 			public void valueChange(ValueChangeEvent event) {
 				Object id = 		tanulmanyAdatokTable.getValue();
@@ -72,11 +72,10 @@ public class TanulmanyokComponent extends CustomComponent {
 		tanulmanyAdatokTable.setImmediate(true); 
 		tanulmanyAdatokTable.setPageLength(5);
 		layout.addComponent(tanulmanyAdatokTable);
-        
-		
-		
+        		
 		addButton = new Button("Hozzáad");
 		deleteButton = new Button("Töröl");
+		rogzitButton = new Button("Rögzít");
 		layout.addComponents(addButton,deleteButton,rogzitButton);
 		
 		id_field = new TextField("Id:");	

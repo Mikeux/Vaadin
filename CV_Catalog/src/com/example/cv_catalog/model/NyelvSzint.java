@@ -1,6 +1,7 @@
 package com.example.cv_catalog.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -19,6 +20,9 @@ public class NyelvSzint implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
+	@OneToMany(mappedBy="nyelvszint")
+	private List<Nyelvismeret> nyelvismeret;
+	
 	private String megnevezes;
 
 	public NyelvSzint() {

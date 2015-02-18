@@ -3,6 +3,7 @@ package com.example.cv_catalog.views;
 import javax.persistence.EntityManager;
 
 import com.example.cv_catalog.u;
+import com.example.cv_catalog.components.NyelvismeretComponent;
 import com.example.cv_catalog.components.SzakmaiTapasztalatComponent;
 import com.example.cv_catalog.components.SzemelyesAdatokComponent;
 import com.example.cv_catalog.components.TanulmanyokComponent;
@@ -33,6 +34,7 @@ public class OneletrajzEdit extends VerticalLayout implements View {
 	private SzemelyesAdatokComponent altalanosAdatok;
 	private TanulmanyokComponent tanulmanyok;
 	private SzakmaiTapasztalatComponent szakmaitapasztalat;
+	private NyelvismeretComponent nyelvismeret;
 	private Tree menuTree;
 	
 	public OneletrajzEdit(UI ui){
@@ -72,8 +74,6 @@ public class OneletrajzEdit extends VerticalLayout implements View {
 		menuTree.addItem("Dokumentációk");
 		menuLayout.addComponent(menuTree);		
 		
-		//this.addMenuOption("Option 1", new Label("Component 1"));
-		//this.addMenuOption("Option 2", new Label("Component 2"));
 		this.init();
 		this.showBorders();
 		
@@ -93,6 +93,9 @@ public class OneletrajzEdit extends VerticalLayout implements View {
 				} else if(event.getItemId().toString() == "Szakmai tapasztalat") {
 					szakmaitapasztalat = new SzakmaiTapasztalatComponent(cv);
 					contentLayout.addComponent(szakmaitapasztalat);
+				} else if(event.getItemId().toString() == "Nyelvismeret") {
+					nyelvismeret = new NyelvismeretComponent(cv);
+					contentLayout.addComponent(nyelvismeret);
 				}
 				//u.uzen(event.getItemId().toString());				
 			}
@@ -106,32 +109,12 @@ public class OneletrajzEdit extends VerticalLayout implements View {
         	contentLayout.addComponent(new Label("Nincs paraméter"));
             return;
         } else {
-        	//u.uzen(event.getParameters());
-        	//contentLayout.addComponent(new Label(event.getParameters()));
         	this.cv = u.EntityManager.find(Oneletrajz.class,Integer.parseInt(event.getParameters()));	
         }
         
-        //this.altalanosAdatok = new SzemelyesAdatokComponent(this.cv);
-        //contentLayout.addComponent(altalanosAdatok);
         menuTree.select("Személyes adatok");
 		altalanosAdatok = new SzemelyesAdatokComponent(cv);
 		contentLayout.addComponent(altalanosAdatok);
-		
-        /*contentLayout.removeComponent(altalanosAdatok);
-        
-		JPAContainer<Oneletrajz> cvs = JPAContainerFactory.make(Oneletrajz.class, "CV_Catalog");
-		cvs.addNestedContainerProperty("felhasznalok.nev");
-		Table cvTable = new Table("Önéletrajzok nyílvántartása", cvs);
-		cvTable.setVisibleColumns("id", "hozzaadva","felhasznalok.nev");
-		cvTable.setColumnHeader("felhasznalok.nev", "Készítette");
-		cvTable.setColumnHeader("hozzaadva", "Hozzáadva");
-		contentLayout.addComponent(cvTable);*/
-				
-		//cvs.getItem(0).getEntity().setFelhasznalok();
-		/*
-		Filter filter = new Compare.Greater("age", 117);
-		persons.addContainerFilter(filter);
-		*/
 	}
 	
 	private void showBorders() {

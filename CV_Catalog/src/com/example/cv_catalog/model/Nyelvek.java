@@ -23,6 +23,9 @@ public class Nyelvek implements Serializable {
 	@OneToMany(mappedBy="nyelvek")
 	private List<SzemelyesAdatok> szemelyesAdatoks;
 	
+	@OneToMany(mappedBy="nyelvek")
+	private List<Nyelvismeret> nyelvismeret;
+	
 	@Column(name="nyelvkod")
 	private String nyelvkod;
 

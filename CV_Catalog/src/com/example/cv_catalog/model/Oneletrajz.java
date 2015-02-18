@@ -26,6 +26,10 @@ public class Oneletrajz implements Serializable {
 	
 	//bi-directional one-to-one association to SzemelyesAdatok
 	@OneToOne(mappedBy="oneletrajz")
+	private Nyelvismeret nyelvismeret;		
+	
+	//bi-directional one-to-one association to SzemelyesAdatok
+	@OneToOne(mappedBy="oneletrajz")
 	private SzemelyesAdatok szemelyesAdatok;	
 	
 	//bi-directional one-to-one association to SzemelyesAdatok
@@ -74,4 +78,12 @@ public class Oneletrajz implements Serializable {
 	public void setSzemelyesAdatok(SzemelyesAdatok szemelyesAdatok) {
 		this.szemelyesAdatok = szemelyesAdatok;
 	}
+	
+	public Nyelvismeret getnyelvismeret() {
+		return this.nyelvismeret;
+	}
+
+	public void setnyelvismeret(Nyelvismeret nyelvismeret) {
+		this.nyelvismeret = nyelvismeret;
+	}	
 }
