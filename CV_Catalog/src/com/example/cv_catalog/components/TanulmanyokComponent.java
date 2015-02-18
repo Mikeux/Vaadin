@@ -1,5 +1,9 @@
 package com.example.cv_catalog.components;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 import com.example.cv_catalog.model.KepzesSzint;
 import com.example.cv_catalog.model.Oneletrajz;
 import com.example.cv_catalog.model.Tanulmanyok;
@@ -10,6 +14,7 @@ import com.vaadin.data.Container.Filter;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.fieldgroup.FieldGroup;
+import com.vaadin.data.util.converter.StringToDateConverter;
 import com.vaadin.data.util.filter.Compare;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
@@ -66,6 +71,7 @@ public class TanulmanyokComponent extends CustomComponent {
 			}
 		});
 		tanulmanyAdatokTable.setVisibleColumns("id", "neve","kezdete","vege","kepzesSzint.megnvezes");
+		tanulmanyAdatokTable.setColumnWidth("neve", 400);
 		//tanulmanyAdatokTable.setColumnHeader("felhasznalok.nev", "Készítette");
 		//tanulmanyAdatokTable.setColumnHeader("hozzaadva", "Hozzáadva");
 		tanulmanyAdatokTable.setSelectable(true);
@@ -84,7 +90,7 @@ public class TanulmanyokComponent extends CustomComponent {
 		
 		neve = new TextArea("Képzés neve:");	
 		editFields.addComponents(neve);
-		//neve.setColumns(20);
+		neve.setColumns(30);
 		neve.setMaxLength(500);
 		editorFields.bind(neve, "neve");
 		
@@ -110,8 +116,10 @@ public class TanulmanyokComponent extends CustomComponent {
 		editFields.setSizeUndefined();
 		editFields.setMargin(true);
 		layout.addComponent(editFields);
-		
-        setSizeUndefined();
+
+        setSizeFull();
+        layout.setSizeFull();
+        tanulmanyAdatokTable.setSizeFull();
 
         setCompositionRoot(layout);
         
@@ -129,6 +137,20 @@ public class TanulmanyokComponent extends CustomComponent {
 	}
 	
 	public void init(){
+		tanulmanyAdatokTable.setConverter("kezdete", new StringToDateConverter() {
+            @Override
+            protected DateFormat getFormat(Locale locale) {
+            	return new SimpleDateFormat("yyyy.MM.dd");
+            }
+        });
+        
+		tanulmanyAdatokTable.setConverter("vege", new StringToDateConverter() {
+            @Override
+            protected DateFormat getFormat(Locale locale) {
+            	return new SimpleDateFormat("yyyy.MM.dd");
+            }
+        });        
+		
 		addButton.addClickListener(new ClickListener() {
 			public void buttonClick(ClickEvent event) {
 				tanulmanyAdatok.addEntity(new Tanulmanyok(cv));

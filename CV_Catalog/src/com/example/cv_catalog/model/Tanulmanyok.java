@@ -24,7 +24,7 @@ public class Tanulmanyok implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name="fk_oneletrajz")
 	private Oneletrajz oneletrajz;
 

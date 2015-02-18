@@ -1,5 +1,9 @@
 package com.example.cv_catalog.views;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 import com.example.cv_catalog.u;
 import com.example.cv_catalog.model.KepzesSzint;
 import com.example.cv_catalog.model.Oneletrajz;
@@ -8,6 +12,7 @@ import com.vaadin.addon.jpacontainer.JPAContainerFactory;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.fieldgroup.FieldGroup;
+import com.vaadin.data.util.converter.StringToDateConverter;
 import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -48,8 +53,12 @@ public class Oneletrajzok extends VerticalLayout implements View {
 		tableLayout.setSizeFull();
 		editLayout.setSizeFull();
 		
+		//https://vaadin.com/forum#!/thread/1076201
 		oneletrajzok = JPAContainerFactory.make(Oneletrajz.class, "CV_Catalog");
 		oneletrajzok.addNestedContainerProperty("felhasznalok.nev");
+		oneletrajzok.addNestedContainerProperty("szemelyesAdatok.vezetekNev");
+		oneletrajzok.addNestedContainerProperty("szemelyesAdatok.keresztNev");
+		oneletrajzok.addNestedContainerProperty("szemelyesAdatok.szulIdo");
 		oneletrajzokTable = new Table("Önéletrajzok nyílvántartása", oneletrajzok);
 		oneletrajzokTable.addValueChangeListener(new Property.ValueChangeListener() {
 			public void valueChange(ValueChangeEvent event) {
@@ -59,17 +68,24 @@ public class Oneletrajzok extends VerticalLayout implements View {
 				id_field.setReadOnly(true);
 			}
 		});
-		oneletrajzokTable.setVisibleColumns("id", "hozzaadva","felhasznalok.nev");
-		oneletrajzokTable.setColumnHeader("felhasznalok.nev", "Készítette");
+		oneletrajzokTable.setVisibleColumns("felhasznalok.nev", "hozzaadva",
+												"szemelyesAdatok.vezetekNev",
+												"szemelyesAdatok.keresztNev",
+												"szemelyesAdatok.szulIdo");
+		oneletrajzokTable.setColumnHeader("felhasznalok.nev", "Létrehozta");
 		oneletrajzokTable.setColumnHeader("hozzaadva", "Hozzáadva");
+		oneletrajzokTable.setColumnHeader("szemelyesAdatok.vezetekNev", "Vezetéknév");
+		oneletrajzokTable.setColumnHeader("szemelyesAdatok.keresztNev", "Keresztnév");
+		oneletrajzokTable.setColumnHeader("szemelyesAdatok.szulIdo", "Születési idõ");
+		
 		oneletrajzokTable.setSelectable(true);
 		oneletrajzokTable.setImmediate(true);	
 		tableLayout.addComponent(oneletrajzokTable);
 			
-		id_field = new TextField("Id:");	
+		/*id_field = new TextField("Id:");	
 		editLayout.addComponents(id_field);
 		editorFields.bind(id_field, "id");	
-		/*
+		
 		megnvezes = new TextField("Megnevezés:");	
 		megnvezes.setSizeFull();
 		megnvezes.setColumns(20);
@@ -85,12 +101,29 @@ public class Oneletrajzok extends VerticalLayout implements View {
 		
 		editorFields.setBuffered(false);
 
+        //setSizeFull();
+		//tableLayout.setSizeFull();
+		oneletrajzokTable.setSizeFull();
+		
 		addComponent(mainLayout);
-		this.initListeners();
+		this.init();
 	}
 	
-	public void initListeners() {
-		        
+	public void init() {
+		oneletrajzokTable.setConverter("szemelyesAdatok.szulIdo", new StringToDateConverter() {
+            @Override
+            protected DateFormat getFormat(Locale locale) {
+            	return new SimpleDateFormat("yyyy.MM.dd");
+            }
+        });		        
+		
+		oneletrajzokTable.setConverter("hozzaadva", new StringToDateConverter() {
+            @Override
+            protected DateFormat getFormat(Locale locale) {
+            	return new SimpleDateFormat("yyyy.MM.dd");
+            }
+        });				
+		
 		editButton.addClickListener(new ClickListener() {
 			public void buttonClick(ClickEvent event) {
 				Object Id = oneletrajzokTable.getValue();

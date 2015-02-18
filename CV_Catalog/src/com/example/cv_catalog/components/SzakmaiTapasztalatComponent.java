@@ -1,5 +1,9 @@
 package com.example.cv_catalog.components;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 import com.example.cv_catalog.model.Oneletrajz;
 import com.example.cv_catalog.model.SzakmaiTapasztalat;
 import com.vaadin.addon.jpacontainer.JPAContainer;
@@ -8,6 +12,7 @@ import com.vaadin.data.Container.Filter;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.fieldgroup.FieldGroup;
+import com.vaadin.data.util.converter.StringToDateConverter;
 import com.vaadin.data.util.filter.Compare;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -81,40 +86,41 @@ public class SzakmaiTapasztalatComponent extends CustomComponent {
 		editFields.addComponents(id_field);
 		editorFields.bind(id_field, "id");
 		
+		kezdete = new DateField("Kezdete:");	
+		editFields.addComponents(kezdete);
+		editorFields.bind(kezdete, "kezdete");
+		
+		vege = new DateField("Vége:");	
+		editFields.addComponents(vege);
+		editorFields.bind(vege, "vege");			
+		
 		munkaadoNeve = new TextArea("Munkaadó neve:");	
 		editFields.addComponents(munkaadoNeve);
-		//neve.setColumns(20);
+		munkaadoNeve.setColumns(25);
 		munkaadoNeve.setMaxLength(500);
 		editorFields.bind(munkaadoNeve, "munkaadoNeve");
 		
 		leiras = new TextArea("Leírás:");	
 		editFields.addComponents(leiras);
-		//neve.setColumns(20);
+		leiras.setColumns(30);
 		leiras.setMaxLength(500);
 		editorFields.bind(leiras, "leiras");
 		
 		
 		pozicioNeve = new TextArea("Pozíció neve:");	
 		editFields.addComponents(pozicioNeve);
-		//neve.setColumns(20);
+		pozicioNeve.setColumns(30);
 		pozicioNeve.setMaxLength(500);
 		editorFields.bind(pozicioNeve, "pozicioNeve");
-				
-		
-		kezdete = new DateField("Képzés kezdete:");	
-		editFields.addComponents(kezdete);
-		editorFields.bind(kezdete, "kezdete");
-		
-		vege = new DateField("Képzés vége:");	
-		editFields.addComponents(vege);
-		editorFields.bind(vege, "vege");	
-		
+						
 		editorFields.setBuffered(false);		
 		editFields.setSizeUndefined();
 		editFields.setMargin(true);
 		layout.addComponent(editFields);
 		
-        setSizeUndefined();
+        setSizeFull();
+        layout.setSizeFull();
+        szakmaiTapasztalatTable.setSizeFull();
 
         setCompositionRoot(layout);
         
@@ -134,6 +140,20 @@ public class SzakmaiTapasztalatComponent extends CustomComponent {
 	}
 	
 	public void init(){
+		szakmaiTapasztalatTable.setConverter("kezdete", new StringToDateConverter() {
+            @Override
+            protected DateFormat getFormat(Locale locale) {
+            	return new SimpleDateFormat("yyyy.MM.dd");
+            }
+        });
+		
+		szakmaiTapasztalatTable.setConverter("vege", new StringToDateConverter() {
+            @Override
+            protected DateFormat getFormat(Locale locale) {
+            	return new SimpleDateFormat("yyyy.MM.dd");
+            }
+        });
+		
 		addButton.addClickListener(new ClickListener() {
 			public void buttonClick(ClickEvent event) {
 				szakmaiTapasztalat.addEntity(new SzakmaiTapasztalat(cv));

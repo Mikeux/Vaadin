@@ -102,7 +102,10 @@ public class NyelvismeretComponent  extends CustomComponent {
 		editFields.setMargin(true);
 		layout.addComponent(editFields);
 		
-        setSizeUndefined();
+        setSizeFull();
+        layout.setSizeFull();
+        nyelvismeretTable.setSizeFull();
+
 
         setCompositionRoot(layout);
         

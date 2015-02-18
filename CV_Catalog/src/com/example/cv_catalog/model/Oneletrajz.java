@@ -24,18 +24,24 @@ public class Oneletrajz implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	//bi-directional one-to-one association to SzemelyesAdatok
-	@OneToOne(mappedBy="oneletrajz")
-	private Nyelvismeret nyelvismeret;		
+	@OneToMany(mappedBy="oneletrajz")
+	private List<Dokumentumok> dokumentumok;	
 	
-	//bi-directional one-to-one association to SzemelyesAdatok
+	@OneToMany(mappedBy="oneletrajz")
+	private List<EgyebKeszsegek> egyebkeszsegek;		
+	
+	@OneToMany(mappedBy="oneletrajz")
+	private List<Tanulmanyok> tanulmanyok;		
+	
+	@OneToMany(mappedBy="oneletrajz")
+	private List<Nyelvismeret> nyelvismeret;		
+	
 	@OneToOne(mappedBy="oneletrajz")
 	private SzemelyesAdatok szemelyesAdatok;	
 	
-	//bi-directional one-to-one association to SzemelyesAdatok
-	@OneToOne(mappedBy="oneletrajz")
-	private SzakmaiTapasztalat szakamiTapasztalat;	
-	
+	@OneToMany(mappedBy="oneletrajz")
+	private List<SzakmaiTapasztalat> szakamiTapasztalat;	
+
 	@ManyToOne
 	@JoinColumn(name="fk_felhasznalok")
 	private Felhasznalok felhasznalok;
@@ -78,12 +84,5 @@ public class Oneletrajz implements Serializable {
 	public void setSzemelyesAdatok(SzemelyesAdatok szemelyesAdatok) {
 		this.szemelyesAdatok = szemelyesAdatok;
 	}
-	
-	public Nyelvismeret getnyelvismeret() {
-		return this.nyelvismeret;
-	}
 
-	public void setnyelvismeret(Nyelvismeret nyelvismeret) {
-		this.nyelvismeret = nyelvismeret;
-	}	
 }

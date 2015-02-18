@@ -1,24 +1,20 @@
 package com.example.cv_catalog.views;
 
-import javax.persistence.EntityManager;
-
 import com.example.cv_catalog.u;
+import com.example.cv_catalog.components.DokumentumokComponent;
+import com.example.cv_catalog.components.EgyebKeszsegekComponent;
 import com.example.cv_catalog.components.NyelvismeretComponent;
 import com.example.cv_catalog.components.SzakmaiTapasztalatComponent;
 import com.example.cv_catalog.components.SzemelyesAdatokComponent;
 import com.example.cv_catalog.components.TanulmanyokComponent;
-import com.example.cv_catalog.model.Felhasznalok;
+import com.example.cv_catalog.model.Dokumentumok;
 import com.example.cv_catalog.model.Oneletrajz;
-import com.vaadin.addon.jpacontainer.JPAContainer;
-import com.vaadin.addon.jpacontainer.JPAContainerFactory;
 import com.vaadin.event.ItemClickEvent;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.HorizontalSplitPanel;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Notification;
-import com.vaadin.ui.Table;
 import com.vaadin.ui.Tree;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
@@ -34,7 +30,10 @@ public class OneletrajzEdit extends VerticalLayout implements View {
 	private SzemelyesAdatokComponent altalanosAdatok;
 	private TanulmanyokComponent tanulmanyok;
 	private SzakmaiTapasztalatComponent szakmaitapasztalat;
+	private EgyebKeszsegekComponent egyebkeszsegek;
 	private NyelvismeretComponent nyelvismeret;
+	private DokumentumokComponent dokumentumok;
+	
 	private Tree menuTree;
 	
 	public OneletrajzEdit(UI ui){
@@ -71,7 +70,7 @@ public class OneletrajzEdit extends VerticalLayout implements View {
 		menuTree.addItem("Szakmai tapasztalat");
 		menuTree.addItem("Nyelvismeret");
 		menuTree.addItem("Egyéb készségek");
-		menuTree.addItem("Dokumentációk");
+		menuTree.addItem("Csatolmányok");
 		menuLayout.addComponent(menuTree);		
 		
 		this.init();
@@ -96,6 +95,12 @@ public class OneletrajzEdit extends VerticalLayout implements View {
 				} else if(event.getItemId().toString() == "Nyelvismeret") {
 					nyelvismeret = new NyelvismeretComponent(cv);
 					contentLayout.addComponent(nyelvismeret);
+				} else if(event.getItemId().toString() == "Egyéb készségek") {
+					egyebkeszsegek = new EgyebKeszsegekComponent(cv);
+					contentLayout.addComponent(egyebkeszsegek);
+				} else if(event.getItemId().toString() == "Csatolmányok") {
+					dokumentumok = new DokumentumokComponent(cv);
+					contentLayout.addComponent(dokumentumok);
 				}
 				//u.uzen(event.getItemId().toString());				
 			}

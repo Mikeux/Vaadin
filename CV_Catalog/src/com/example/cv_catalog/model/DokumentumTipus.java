@@ -1,6 +1,7 @@
 package com.example.cv_catalog.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -18,6 +19,9 @@ public class DokumentumTipus implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+	
+	@OneToMany(mappedBy="dokumentum_tipus")
+	private List<Dokumentumok> dokumentumok;		
 
 	private String megnevezes;
 

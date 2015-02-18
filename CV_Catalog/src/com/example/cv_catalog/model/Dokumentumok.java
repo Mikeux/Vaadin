@@ -10,6 +10,7 @@ import javax.persistence.*;
  * 
  */
 @Entity
+@Table(name="dokumentumok")
 @NamedQuery(name="Dokumentumok.findAll", query="SELECT d FROM Dokumentumok d")
 public class Dokumentumok implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -18,10 +19,23 @@ public class Dokumentumok implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
+	@ManyToOne
+	@JoinColumn(name="fk_oneletrajz")
+	private Oneletrajz oneletrajz;	
+	
+	@ManyToOne
+	@JoinColumn(name="fk_dokumentum_tipus")
+	private DokumentumTipus dokumentum_tipus;		
+	
 	@Column(name="fajl_neve")
 	private String fajlNeve;
 
 	public Dokumentumok() {
+	}
+	
+	public Dokumentumok(Oneletrajz cv) {
+		this.oneletrajz = cv;
+		this.fajlNeve = "";
 	}
 
 	public int getId() {

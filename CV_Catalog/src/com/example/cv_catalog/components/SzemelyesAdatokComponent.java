@@ -1,5 +1,9 @@
 package com.example.cv_catalog.components;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 import com.example.cv_catalog.model.Nyelvek;
 import com.example.cv_catalog.model.Oneletrajz;
 import com.example.cv_catalog.model.Orszagok;
@@ -12,6 +16,7 @@ import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.data.fieldgroup.FieldGroup;
+import com.vaadin.data.util.converter.StringToDateConverter;
 import com.vaadin.data.util.filter.Compare;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
@@ -133,7 +138,9 @@ public class SzemelyesAdatokComponent extends CustomComponent {
 		editFields.setMargin(true);
 		layout.addComponent(editFields);
 		
-        setSizeUndefined();
+        setSizeFull();
+        layout.setSizeFull();
+        szemelyesAdatokTable.setSizeFull();
 
         setCompositionRoot(layout);
         
@@ -146,6 +153,13 @@ public class SzemelyesAdatokComponent extends CustomComponent {
 	}
 	
 	public void init(){
+		szemelyesAdatokTable.setConverter("szulIdo", new StringToDateConverter() {
+            @Override
+            protected DateFormat getFormat(Locale locale) {
+            	return new SimpleDateFormat("yyyy.MM.dd");
+            }
+        });
+		
 		orszagokCombo.addValueChangeListener(new ValueChangeListener(){
 			@Override
 			public void valueChange(ValueChangeEvent event) {

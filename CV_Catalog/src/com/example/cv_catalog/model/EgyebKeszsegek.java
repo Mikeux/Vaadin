@@ -22,7 +22,16 @@ public class EgyebKeszsegek implements Serializable {
 	@Lob
 	private String leiras;
 
+	@ManyToOne
+	@JoinColumn(name="fk_oneletrajz")
+	private Oneletrajz oneletrajz;
+	
 	public EgyebKeszsegek() {
+	}
+	
+	public EgyebKeszsegek(Oneletrajz cv) {
+		this.oneletrajz = cv;
+		this.leiras = "";
 	}
 
 	public int getId() {
