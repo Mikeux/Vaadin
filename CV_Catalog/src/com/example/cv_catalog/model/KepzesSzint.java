@@ -1,6 +1,8 @@
 package com.example.cv_catalog.model;
 
 import java.io.Serializable;
+import java.util.List;
+
 import javax.persistence.*;
 
 
@@ -20,6 +22,9 @@ public class KepzesSzint implements Serializable {
 	
 	private String megnvezes;
 
+	@OneToMany(mappedBy="kepzesSzint")
+	private List<Tanulmanyok> tanulmanyok;	
+	
 	public KepzesSzint() {
 	}
 	
@@ -48,5 +53,28 @@ public class KepzesSzint implements Serializable {
 	public void setMegnvezes(String megnvezes) {
 		this.megnvezes = megnvezes;
 	}
+	
+
+	public List<Tanulmanyok> getTanulmanyok() {
+		return this.tanulmanyok;
+	}
+
+	public void setTanulmanyok(List<Tanulmanyok> tanulmanyok) {
+		this.tanulmanyok = tanulmanyok;
+	}
+
+	public Tanulmanyok addTanulmanyok(Tanulmanyok tanulmanyok) {
+		getTanulmanyok().add(tanulmanyok);
+		tanulmanyok.setKepzesSzint(this);
+
+		return tanulmanyok;
+	}
+
+	public Tanulmanyok removeTanulmanyok(Tanulmanyok tanulmanyok) {
+		getTanulmanyok().remove(tanulmanyok);
+		tanulmanyok.setKepzesSzint(null);
+
+		return tanulmanyok;
+	}	
 
 }

@@ -28,6 +28,10 @@ public class Oneletrajz implements Serializable {
 	@OneToOne(mappedBy="oneletrajz")
 	private SzemelyesAdatok szemelyesAdatok;	
 	
+	//bi-directional one-to-one association to SzemelyesAdatok
+	@OneToOne(mappedBy="oneletrajz")
+	private SzakmaiTapasztalat szakamiTapasztalat;	
+	
 	@ManyToOne
 	@JoinColumn(name="fk_felhasznalok")
 	private Felhasznalok felhasznalok;

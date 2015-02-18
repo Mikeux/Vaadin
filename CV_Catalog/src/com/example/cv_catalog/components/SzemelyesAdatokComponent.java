@@ -1,36 +1,28 @@
 package com.example.cv_catalog.components;
 
-import com.example.cv_catalog.u;
 import com.example.cv_catalog.model.Nyelvek;
 import com.example.cv_catalog.model.Oneletrajz;
 import com.example.cv_catalog.model.Orszagok;
 import com.example.cv_catalog.model.SzemelyesAdatok;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.JPAContainerFactory;
-import com.vaadin.addon.jpacontainer.fieldfactory.FieldFactory;
 import com.vaadin.addon.jpacontainer.fieldfactory.SingleSelectConverter;
 import com.vaadin.data.Container.Filter;
-import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.util.filter.Compare;
-import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
-import com.vaadin.shared.ui.combobox.FilteringMode;
-import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.DateField;
-import com.vaadin.ui.Form;
 import com.vaadin.ui.FormLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.Panel;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
 
 public class SzemelyesAdatokComponent extends CustomComponent {
 	private FormLayout editFields = new FormLayout();
@@ -44,6 +36,7 @@ public class SzemelyesAdatokComponent extends CustomComponent {
 
 	private TextField id_field;
 	private ComboBox orszagokCombo,nyelvekCombo;
+	private Button rogzitButton;
 	
 	private Oneletrajz cv;
 	
@@ -89,6 +82,9 @@ public class SzemelyesAdatokComponent extends CustomComponent {
 		szemelyesAdatokTable.setPageLength(1);
 		layout.addComponent(szemelyesAdatokTable);
         
+		rogzitButton = new Button("Rögzít");
+		layout.addComponents(rogzitButton);
+		
 		id_field = new TextField("Id:");	
 		editFields.addComponents(id_field);
 		editorFields.bind(id_field, "id");
@@ -116,15 +112,17 @@ public class SzemelyesAdatokComponent extends CustomComponent {
 		//orszagokCombo.setFilteringMode(FilteringMode.CONTAINS);
 		//orszagokCombo.setConverter(new SingleSelectConverterCorrected(orszagok));
 		//orszagokCombo.setConverter(new SingleSelectConverter(orszagokCombo));
-		orszagokCombo.setImmediate(true);
-		orszagokCombo.setBuffered(false);
+		//orszagokCombo.setImmediate(true);
+		//orszagokCombo.setBuffered(false);
+		orszagokCombo.setConverter(new SingleSelectConverter(orszagokCombo));
 		editFields.addComponents(orszagokCombo);
+		editorFields.bind(orszagokCombo, "orszagok");	
 				
 		nyelvekCombo = new ComboBox("Anyanyelv:", nyelvek);
 		nyelvekCombo.setContainerDataSource(nyelvek);
 		nyelvekCombo.setItemCaptionPropertyId("nyelv");
-		nyelvekCombo.setImmediate(true);
-		nyelvekCombo.setBuffered(false);
+		//nyelvekCombo.setImmediate(true);
+		//nyelvekCombo.setBuffered(false);
 		nyelvekCombo.setConverter(new SingleSelectConverter(nyelvekCombo));
 		editFields.addComponents(nyelvekCombo);
 		editorFields.bind(nyelvekCombo, "nyelvek");	
@@ -163,17 +161,18 @@ public class SzemelyesAdatokComponent extends CustomComponent {
 				http://stackoverflow.com/questions/15972920/vaadin-sqlcontainer-reference-how-to-implement-foreign-key-relation
 				*/
 				//szemelyesAdatok.getContainerProperty(szemelyesAdatokTable.getValue(), "orszagok.id")
-				Orszagok o = orszagok.getItem(event.getProperty().getValue()).getEntity();
+				//Orszagok o = orszagok.getItem(event.getProperty().getValue()).getEntity();
 				//Item item = szemelyesAdatok.getItem(szemelyesAdatokTable.getValue());
 				//SzemelyesAdatok sza= szemelyesAdatok.getItem(szemelyesAdatokTable.getValue()).getEntity();
 				//u.uzen(item.getItemProperty("telefonszam").getValue().toString());
 				//u.uzen(sza.getKeresztNev());
 				
-				szemelyesAdatokTable.setBuffered(true);
+				//szemelyesAdatokTable.setBuffered(true);
 				
-				szemelyesAdatok.getItem(szemelyesAdatokTable.getValue()).getEntity().setOrszagok(o);
+				//szemelyesAdatok.getItem(szemelyesAdatokTable.getValue()).getEntity().setOrszagok(o);
 				
-				u.uzen(szemelyesAdatok.getItem(szemelyesAdatokTable.getValue()).isModified()+"");
+				//u.uzen(szemelyesAdatok.getItem(szemelyesAdatokTable.getValue()).isModified()+"");
+				
 				//item.getItemProperty("orszagok.id").setValue(o.getId());
 				//Orszagok o = orszagok.getItem(event.getProperty().getValue()).getEntity();
 				//u.uzen(o.getNyelvkod());
@@ -183,13 +182,17 @@ public class SzemelyesAdatokComponent extends CustomComponent {
 				
 				//new SingleSelectConverter<ProductType>(cbType)
 				
-				szemelyesAdatok.commit();
-				szemelyesAdatok.refresh();
-				szemelyesAdatokTable.commit();
-				szemelyesAdatokTable.setBuffered(false);
+				//szemelyesAdatok.commit();
+				//szemelyesAdatok.refresh();
+				//szemelyesAdatokTable.commit();
+				//szemelyesAdatokTable.setBuffered(false);
 			}			
 		});
-		
+		rogzitButton.addClickListener(new ClickListener() {
+			public void buttonClick(ClickEvent event) {
+				szemelyesAdatok.commit();
+			}
+		});
 	}
 	
 }

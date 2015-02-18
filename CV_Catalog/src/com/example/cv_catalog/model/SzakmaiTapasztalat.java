@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
@@ -21,6 +23,10 @@ public class SzakmaiTapasztalat implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
+	@OneToOne
+	@JoinColumn(name="fk_oneletrajz")
+	private Oneletrajz oneletrajz;	
+	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date kezdete;
 
@@ -39,6 +45,19 @@ public class SzakmaiTapasztalat implements Serializable {
 	private Date vege;
 
 	public SzakmaiTapasztalat() {
+	}
+	
+	public SzakmaiTapasztalat(Oneletrajz cv) {
+		try {
+			this.kezdete = new SimpleDateFormat("yyyy.MM.dd").parse("1990.01.01");
+			this.vege = kezdete;
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		this.leiras = "";
+		this.munkaadoNeve = "";
+		this.pozicioNeve = "";
+		this.oneletrajz = cv;
 	}
 
 	public int getId() {
@@ -88,5 +107,13 @@ public class SzakmaiTapasztalat implements Serializable {
 	public void setVege(Date vege) {
 		this.vege = vege;
 	}
+	
+	public Oneletrajz getOneletrajz() {
+		return this.oneletrajz;
+	}
+
+	public void setOneletrajz(Oneletrajz oneletrajz) {
+		this.oneletrajz = oneletrajz;
+	}	
 
 }

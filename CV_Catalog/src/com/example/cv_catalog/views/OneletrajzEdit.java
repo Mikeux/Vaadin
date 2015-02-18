@@ -3,7 +3,9 @@ package com.example.cv_catalog.views;
 import javax.persistence.EntityManager;
 
 import com.example.cv_catalog.u;
+import com.example.cv_catalog.components.SzakmaiTapasztalatComponent;
 import com.example.cv_catalog.components.SzemelyesAdatokComponent;
+import com.example.cv_catalog.components.TanulmanyokComponent;
 import com.example.cv_catalog.model.Felhasznalok;
 import com.example.cv_catalog.model.Oneletrajz;
 import com.vaadin.addon.jpacontainer.JPAContainer;
@@ -29,6 +31,8 @@ public class OneletrajzEdit extends VerticalLayout implements View {
 	
 	private Oneletrajz cv;
 	private SzemelyesAdatokComponent altalanosAdatok;
+	private TanulmanyokComponent tanulmanyok;
+	private SzakmaiTapasztalatComponent szakmaitapasztalat;
 	private Tree menuTree;
 	
 	public OneletrajzEdit(UI ui){
@@ -83,6 +87,12 @@ public class OneletrajzEdit extends VerticalLayout implements View {
 				if(event.getItemId().toString() == "Személyes adatok") {
 					altalanosAdatok = new SzemelyesAdatokComponent(cv);
 					contentLayout.addComponent(altalanosAdatok);
+				} else if(event.getItemId().toString() == "Tanulmányok") {
+					tanulmanyok = new TanulmanyokComponent(cv);
+					contentLayout.addComponent(tanulmanyok);
+				} else if(event.getItemId().toString() == "Szakmai tapasztalat") {
+					szakmaitapasztalat = new SzakmaiTapasztalatComponent(cv);
+					contentLayout.addComponent(szakmaitapasztalat);
 				}
 				//u.uzen(event.getItemId().toString());				
 			}
@@ -101,9 +111,12 @@ public class OneletrajzEdit extends VerticalLayout implements View {
         	this.cv = u.EntityManager.find(Oneletrajz.class,Integer.parseInt(event.getParameters()));	
         }
         
-        this.altalanosAdatok = new SzemelyesAdatokComponent(this.cv);
-        contentLayout.addComponent(altalanosAdatok);
-        
+        //this.altalanosAdatok = new SzemelyesAdatokComponent(this.cv);
+        //contentLayout.addComponent(altalanosAdatok);
+        menuTree.select("Személyes adatok");
+		altalanosAdatok = new SzemelyesAdatokComponent(cv);
+		contentLayout.addComponent(altalanosAdatok);
+		
         /*contentLayout.removeComponent(altalanosAdatok);
         
 		JPAContainer<Oneletrajz> cvs = JPAContainerFactory.make(Oneletrajz.class, "CV_Catalog");
