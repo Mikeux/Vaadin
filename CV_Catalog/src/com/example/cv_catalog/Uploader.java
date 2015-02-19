@@ -13,35 +13,33 @@ import com.vaadin.ui.Upload.SucceededListener;
 
 public class Uploader implements Receiver, SucceededListener {
 	public File file;
+	public String Tipus;
 	
 	public OutputStream receiveUpload(String filename,String mimeType) {
 		
-		/*
-		https://vaadin.com/book/vaadin6/-/page/application.resources.html
-		https://vaadin.com/book/-/page/application.resources.html
+		
+		//https://vaadin.com/book/vaadin6/-/page/application.resources.html
+		//https://vaadin.com/book/-/page/application.resources.html
 		
 		// Find the application directory
 		String basepath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
 		
 		// Image as a file resource
-		FileResource resource = new FileResource(new File(basepath +
-		                        "/WEB-INF/images/image.png"));
+		//FileResource resource = new FileResource(new File(basepath + "/WEB-INF/images/image.png"));
 		
 		// Show the image in the application
-		Image image = new Image("Image from file", resource);
+		//Image image = new Image("Image from file", resource);
 		        
 		// Let the user view the file in browser or download it
-		Link link = new Link("Link to the image file", resource);
-		*/
-		
-		u.uzen("PATH => "+VaadinService.getCurrent().getBaseDirectory().getAbsolutePath());
+		//Link link = new Link("Link to the image file", resource);
+				
+		//u.uzen("PATH => "+VaadinService.getCurrent().getBaseDirectory().getAbsolutePath());
 		
 		FileOutputStream fos = null; // Stream to write to
 		//File folder = new File ( System.getProperty( "user.home" ) + File.separator + "myfolder" ).mkdir();
 				
-		return null;
-		/*try {
-			file = new File("/" + filename);
+		try {
+			file = new File(basepath + "/" + filename);
 			fos = new FileOutputStream(file);
 		} catch (final java.io.FileNotFoundException e) {
 			new Notification("A fájl megnyitása nem sikerült<br/>",
@@ -49,8 +47,8 @@ public class Uploader implements Receiver, SucceededListener {
 					Notification.Type.ERROR_MESSAGE).show(Page.getCurrent());
 			return null;
 		}
-			return fos; // Return the output stream to write to
-		*/
+		return fos; // Return the output stream to write to
+		
 	}
 
 	@Override

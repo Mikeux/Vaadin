@@ -16,8 +16,8 @@
 		<class>com.example.cv_catalog.model.Tanulmanyok</class>
 		<properties>
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://79.172.252.29/gabtihu1_cv_catalog"/>
-			<property name="javax.persistence.jdbc.user" value="gabtihu1_mikeux"/>
-			<property name="javax.persistence.jdbc.password" value="motnaf87"/>
+			<property name="javax.persistence.jdbc.user" value="gabtihu1_teszt"/>
+			<property name="javax.persistence.jdbc.password" value="teszt"/>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
 		</properties>
 	</persistence-unit>

@@ -6,6 +6,7 @@ import com.example.cv_catalog.model.Dokumentumok;
 import com.example.cv_catalog.model.Oneletrajz;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.JPAContainerFactory;
+import com.vaadin.addon.jpacontainer.fieldfactory.SingleSelectConverter;
 import com.vaadin.data.Container.Filter;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
@@ -14,6 +15,7 @@ import com.vaadin.data.util.filter.Compare;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.Embedded;
@@ -35,6 +37,7 @@ public class DokumentumokComponent  extends CustomComponent {
 	private FieldGroup editorFields = new FieldGroup();
 
 	private TextArea leiras;
+	private ComboBox dokumentumTipusCombo;
 	
 	private Button addButton, deleteButton,rogzitButton;
 	private DateField kezdete,vege;
@@ -97,12 +100,12 @@ public class DokumentumokComponent  extends CustomComponent {
 		panel.setContent(panelContent);*/
 		editFields.addComponents(upload);
 				
-		
-		/*leiras = new TextArea("Tevékenység leírása:");	
-		editFields.addComponents(leiras);
-		leiras.setColumns(30);
-		leiras.setMaxLength(1024);
-		editorFields.bind(leiras, "leiras");*/	
+		dokumentumTipusCombo = new ComboBox("Csaktolmány típusa:", dokumentumTipus);
+		dokumentumTipusCombo.setContainerDataSource(dokumentumTipus);
+		dokumentumTipusCombo.setItemCaptionPropertyId("megnevezes");
+		dokumentumTipusCombo.setConverter(new SingleSelectConverter(dokumentumTipusCombo));
+		editFields.addComponents(dokumentumTipusCombo);
+		editorFields.bind(dokumentumTipusCombo, "dokumentumTipus");	
 		
 		editorFields.setBuffered(false);		
 		editFields.setSizeUndefined();
