@@ -37,8 +37,6 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
 
-
-
 @SuppressWarnings("serial")
 @Theme("cv_catalog")
 public class CV_CatalogUI extends UI {
@@ -86,10 +84,11 @@ public class CV_CatalogUI extends UI {
 		getPage().setTitle("Önéletrajz nyílvántartó");
         
         // Create and register the views
-        navigator.addView("", new StartView());
-        navigator.addView("login", LoginView.class);		
-		navigator.addView("login2", LoginView2.class); //http://localhost:8080/CV_Catalog/#!login2
-		navigator.addView("_main", _MainView.class);
+        //navigator.addView("", new StartView());
+		//navigator.addView("login2", LoginView2.class); //http://localhost:8080/CV_Catalog/#!login2
+		//navigator.addView("_main", _MainView.class);
+				        
+		navigator.addView("login", LoginView.class);		
 		navigator.addView("main", new MainView(getUI()));
 		
 		navigator.addView("szotar_orszag", new szotar_orszag(getUI()));

@@ -114,7 +114,7 @@ public class OneletrajzEdit extends VerticalLayout implements View {
         	contentLayout.addComponent(new Label("Nincs paraméter"));
             return;
         } else {
-        	this.cv = u.EntityManager.find(Oneletrajz.class,Integer.parseInt(event.getParameters()));	
+        	this.cv = u.EM.find(Oneletrajz.class,Integer.parseInt(event.getParameters()));	
         }
         
         menuTree.select("Személyes adatok");

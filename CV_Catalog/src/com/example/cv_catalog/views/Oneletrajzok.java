@@ -65,7 +65,7 @@ public class Oneletrajzok extends VerticalLayout implements View {
 				Object id = oneletrajzokTable.getValue();
 				if (id != null)
 					editorFields.setItemDataSource(oneletrajzokTable.getItem(id));
-				id_field.setReadOnly(true);
+				//id_field.setReadOnly(true);
 			}
 		});
 		oneletrajzokTable.setVisibleColumns("felhasznalok.nev", "hozzaadva",

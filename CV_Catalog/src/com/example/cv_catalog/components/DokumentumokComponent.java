@@ -1,5 +1,6 @@
 package com.example.cv_catalog.components;
 
+import com.example.cv_catalog.Uploader;
 import com.example.cv_catalog.model.DokumentumTipus;
 import com.example.cv_catalog.model.Dokumentumok;
 import com.example.cv_catalog.model.Oneletrajz;
@@ -15,7 +16,9 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.DateField;
+import com.vaadin.ui.Embedded;
 import com.vaadin.ui.FormLayout;
+import com.vaadin.ui.ProgressBar;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.Upload;
@@ -74,8 +77,26 @@ public class DokumentumokComponent  extends CustomComponent {
 		rogzitButton = new Button("Rögzít");
 		layout.addComponents(addButton,deleteButton,rogzitButton);
 		
-		Upload upload = new Upload("Csatlomány feltöltése", null);
+		ProgressBar bar = new ProgressBar();
+		bar.setVisible(false);
+		bar.setIndeterminate(true);		
+		
+		Embedded image = new Embedded("Feltöltött kép");
+		image.setVisible(false);
+		editFields.addComponents(image);
+		
+		Uploader receiver = new Uploader();
+		Upload upload = new Upload("Csatlomány feltöltése", receiver);
+		upload.setButtonCaption("Feltölt");
+		upload.addSucceededListener(receiver);
+		//upload.addStartedListener(listener);
+		//upload.addProgressListener(receiver);
+		/*Panel panel = new Panel("Cool Image Storage");
+		Layout panelContent = new VerticalLayout();
+		panelContent.addComponents(upload, image);
+		panel.setContent(panelContent);*/
 		editFields.addComponents(upload);
+				
 		
 		/*leiras = new TextArea("Tevékenység leírása:");	
 		editFields.addComponents(leiras);

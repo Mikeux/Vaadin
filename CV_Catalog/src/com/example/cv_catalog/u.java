@@ -212,7 +212,7 @@ PDF megnyitás book of vaadin -> 391
 public class u {
 	
 	public static Felhasznalok LoginFelhasznalo;
-	public static EntityManager EntityManager = JPAContainerFactory.createEntityManagerForPersistenceUnit("CV_Catalog");
+	public static EntityManager EM = JPAContainerFactory.createEntityManagerForPersistenceUnit("CV_Catalog");
 	
 	public static String db_database = "79.172.252.29/gabtihu1_cv_catalog";
 	public static String db_name = "gabtihu1_mikeux";
@@ -226,7 +226,7 @@ public class u {
 		// Notification with default settings for a warning
 		Notification notif = new Notification("Információ",msg,Notification.TYPE_WARNING_MESSAGE);
 		// Customize it
-		notif.setDelayMsec(400);
+		notif.setDelayMsec(2000);
 		notif.setPosition(Position.BOTTOM_RIGHT);
 		notif.setStyleName("u_uzen");
 		//notif.setIcon(new ThemeResource("img/reindeer.png"));
@@ -257,22 +257,8 @@ public class u {
 	}
 	
 	public static MenuBar MenuKeszites(UI ui) {
-		//TypedQuery<Felhasznalok> query = EntityManager.createQuery("SELECT f FROM felhasznalok f", Felhasznalok.class);
-		//u.LoginFelhasznalo  = query.getSingleResult();	
-		u.LoginFelhasznalo = u.EntityManager.find(Felhasznalok.class, 1);
-		//if(results.size() > 0) = results.get(0);
-		
-		//u.uzen(u.LoginFelhasznalo.getNev());
-
-		
 		MenuBar barmenu = new MenuBar();
-		//layout.addComponent(barmenu);
-		
-		// A feedback component
-		//final Label selection = new Label("");
-		//layout.addComponent(selection);
 
-		// Define a common menu command for all the menu items.
 		MenuBar.Command mycommand = new MenuBar.Command() {
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
@@ -316,14 +302,12 @@ public class u {
 		MenuBar.Command cvedit = new MenuBar.Command() {
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
-				//JPAContainer<Oneletrajz> cvs = JPAContainerFactory.make(Oneletrajz.class, "CV_Catalog");
-				//cvs.addEntity(new Oneletrajz());
 				Oneletrajz cv = new Oneletrajz();
 				cv.setFelhasznalok(u.LoginFelhasznalo);
 				cv.setHozzaadva(new java.util.Date());
-				u.EntityManager.getTransaction().begin();
-				u.EntityManager.persist(cv);
-				u.EntityManager.getTransaction().commit();
+				u.EM.getTransaction().begin();
+				u.EM.persist(cv);
+				u.EM.getTransaction().commit();
 				ui.getNavigator().navigateTo("cv_edit/"+cv.getId());
 			}  
 		};
@@ -343,25 +327,6 @@ public class u {
 		
 		MenuItem exit = barmenu.addItem("Kijelentkezés", null, kilepes);
 		
-		/*
-		// A top-level menu item that opens a submenu
-		MenuItem drinks = barmenu.addItem("Beverages", null, null);
-
-		// Submenu item with a sub-submenu
-		MenuItem hots = drinks.addItem("Hot", null, null);
-		hots.addItem("Tea",new ThemeResource("icons/tea-16px.png"),    mycommand);
-		hots.addItem("Coffee",new ThemeResource("icons/coffee-16px.png"), mycommand);
-
-		// Another submenu item with a sub-submenu
-		MenuItem colds = drinks.addItem("Cold", null, null);
-		colds.addItem("Milk",      null, mycommand);
-		colds.addItem("Weissbier", null, mycommand);
-
-		// A sub-menu item after a separator
-		drinks.addSeparator();
-		drinks.addItem("Quit Drinking", null, null);
-		*/
-
 		return barmenu;
 	}
 	

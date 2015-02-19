@@ -1,6 +1,11 @@
 package com.example.cv_catalog.views;
 
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+
 import com.example.cv_catalog.u;
+import com.example.cv_catalog.model.Felhasznalok;
+import com.vaadin.addon.jpacontainer.JPAContainerFactory;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.FontAwesome;
@@ -57,12 +62,16 @@ public class LoginView extends VerticalLayout implements View {
 		
 		belepes.addClickListener(new Button.ClickListener() {
 			public void buttonClick(ClickEvent event) {
-				u.uzen("Belépés...");
-				Notification.show("Sikeres belépés");
-				
-				getSession().setAttribute("user",nev.getValue());
-				getUI().getNavigator().navigateTo("cvs");
-				//http://www.objectdb.com/java/jpa/query/api
+				TypedQuery<Felhasznalok> query = u.EM.createQuery("SELECT f FROM Felhasznalok f WHERE f.nev='"+nev.getValue()+"' AND f.jelszo='"+jelszo.getValue()+"'", Felhasznalok.class);
+				try {
+					u.LoginFelhasznalo  = query.getSingleResult();
+					u.uzen("Sikeres bejelentkezés! ("+u.LoginFelhasznalo.getNev()+")");
+					getSession().setAttribute("user",nev.getValue());
+					getUI().getNavigator().navigateTo("cvs");
+				}catch (Exception ex) {
+					Notification.show("Hibás név/jelszó!",Notification.TYPE_ERROR_MESSAGE);
+					//u.uzen("Hibás név/jelszó!");
+				}
 			}
 		});
 	}
