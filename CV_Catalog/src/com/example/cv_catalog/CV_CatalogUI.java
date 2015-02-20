@@ -100,9 +100,9 @@ public class CV_CatalogUI extends UI {
 		navigator.addView("cvs", new Oneletrajzok(getUI()));
 		
 		boolean isLoggedIn = getSession().getAttribute("user") != null;
-		//if(!isLoggedIn) getUI().getNavigator().navigateTo("login");
-		//else  getUI().getNavigator().navigateTo("cvs");
-		getUI().getNavigator().navigateTo("cvs");
+		if(!isLoggedIn) getUI().getNavigator().navigateTo("login");
+		else  getUI().getNavigator().navigateTo("cvs");
+		//getUI().getNavigator().navigateTo("cvs");
 		
 		//HorizontalLayout upperSection = new HorizontalLayout();
 		//upperSection.addComponent(u.MenuKeszites(getUI()));

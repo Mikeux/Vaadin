@@ -38,6 +38,7 @@ import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.HorizontalSplitPanel;
 import com.vaadin.ui.Layout;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.TextField;
@@ -140,13 +141,13 @@ public class Oneletrajzok extends VerticalLayout implements View {
 	public void adatotOsszeallit(){
 		String where = "";
 		if(orszagokCombo != null) {
-			if(orszagokCombo.getValue() != null) where += "o2.id = "+orszagokCombo.getValue().toString();
+			if(orszagokCombo.getValue() != null) where += "Orszagok.id = "+orszagokCombo.getValue().toString();
 		}
 		
 		if(nyelvekCombo != null) {
 			if(nyelvekCombo.getValue() != null) {
 				if(where != "") where += " AND ";
-				where += "nye.id = "+nyelvekCombo.getValue().toString();
+				where += "Nyelvek.id = "+nyelvekCombo.getValue().toString();
 			}
 		}		
 		
@@ -160,21 +161,23 @@ public class Oneletrajzok extends VerticalLayout implements View {
 		if(kepzesSzintCombo != null) {
 			if(kepzesSzintCombo.getValue() != null) {
 				if(where != "") where += " AND ";
-				where += "ksz.id = "+kepzesSzintCombo.getValue().toString();
+				where += "KepzesSzint.id = "+kepzesSzintCombo.getValue().toString();
 			}
 		}	
 				
-		List<Object[]> result = u.EM.createQuery("Select f,o,sza from Oneletrajz AS o "+
+		List<Object[]> result = u.EM.createQuery("Select f,o,sza "+
+				" from Oneletrajz AS o "+
 				" JOIN Felhasznalok f ON f.oneletrajzok=o "+
 				" JOIN SzemelyesAdatok sza ON o.szemelyesAdatok=sza "+
-				" JOIN Orszagok o2 ON sza.orszagok=o2 "+
-				" JOIN Nyelvismeret nyi ON o.nyelvismeret=nyi "+
-				" JOIN Nyelvek nye ON nyi.nyelvek=nye "+
-				" JOIN Tanulmanyok ta ON o.tanulmanyok=ta "+
-				" JOIN KepzesSzint ksz ON ta.kepzesSzint=ksz "+
+				" LEFT OUTER JOIN sza.orszagok Orszagok "+ 
+				" LEFT OUTER JOIN o.nyelvismeret Nyelvismeret "+
+				" LEFT OUTER JOIN Nyelvismeret.nyelvek Nyelvek "+
+				" LEFT OUTER JOIN o.tanulmanyok Tanulmanyok "+
+				" LEFT OUTER JOIN Tanulmanyok.kepzesSzint KepzesSzint "+
 				((where != "") ? " WHERE " + where :"")+
 				" GROUP BY o").getResultList();		
 		oneletrajzok  = new IndexedContainer();
+		oneletrajzok.addContainerProperty("id", Integer.class, "");
 		oneletrajzok.addContainerProperty("letrehozta", String.class, "");
 		oneletrajzok.addContainerProperty("vezeteknev", String.class, "");
 		oneletrajzok.addContainerProperty("keresztnev", String.class, "");
@@ -185,6 +188,7 @@ public class Oneletrajzok extends VerticalLayout implements View {
 			Oneletrajz or = (Oneletrajz) row[1];
 			SzemelyesAdatok sza = (SzemelyesAdatok) row[2];
 			Item newItem = oneletrajzok.getItem(oneletrajzok.addItem());
+			newItem.getItemProperty("id").setValue(or.getId());
 			newItem.getItemProperty("letrehozta").setValue(f.getNev());
 			newItem.getItemProperty("vezeteknev").setValue(sza.getVezetekNev());
 			newItem.getItemProperty("keresztnev").setValue(sza.getKeresztNev());
@@ -203,12 +207,44 @@ public class Oneletrajzok extends VerticalLayout implements View {
 		
 		editButton.addClickListener(new ClickListener() {
 			public void buttonClick(ClickEvent event) {
-				Object Id = oneletrajzokTable.getValue();
-				if(Id != null) getUI().getNavigator().navigateTo("cv_edit/"+Id);
-				else u.uzen("Nincs kiválasztott elem!");
+				Object sor = (int)oneletrajzokTable.getValue();
+				if(sor != null) {
+					getUI().getNavigator().navigateTo("cv_edit/"+oneletrajzok.getItem(sor).getItemProperty("id").getValue());
+				}else  {
+					u.uzen("Nincs kiválasztott elem!");
+				}
 			}
 		});
 		
+		removeButton.addClickListener(new ClickListener() {
+			public void buttonClick(ClickEvent event) {
+				Object sor = oneletrajzokTable.getValue();
+				Object id;
+				if(sor != null) {
+					try {			
+						id = oneletrajzok.getItem(sor).getItemProperty("id").getValue();
+						u.EM.getTransaction().begin();
+						u.EM.createQuery("DELETE FROM Oneletrajz o WHERE o.id="+id).executeUpdate();
+						u.EM.createQuery("DELETE FROM Nyelvismeret nyi WHERE nyi.oneletrajz.id="+id).executeUpdate();
+						u.EM.createQuery("DELETE FROM SzemelyesAdatok sza WHERE sza.oneletrajz.id="+id).executeUpdate();
+						u.EM.createQuery("DELETE FROM SzakmaiTapasztalat szt WHERE szt.oneletrajz.id="+id).executeUpdate();
+						u.EM.createQuery("DELETE FROM Tanulmanyok ta WHERE ta.oneletrajz.id="+id).executeUpdate();
+						u.EM.createQuery("DELETE FROM EgyebKeszsegek ek WHERE ek.oneletrajz.id="+id).executeUpdate();
+						u.EM.createQuery("DELETE FROM Dokumentumok ek WHERE ek.oneletrajz.id="+id).executeUpdate();
+						u.EM.getTransaction().commit();
+						adatotOsszeallit();
+						oneletrajzokTable.setContainerDataSource(oneletrajzok);
+						if(oneletrajzok.size()  > 0) oneletrajzokTable.select(oneletrajzok.getIdByIndex(0));	
+						u.uzen("Sikeres törlés!");
+					} catch(Exception ex) {
+						Notification.show("Törlése nem sikerült", Notification.TYPE_ERROR_MESSAGE);
+					}
+				}
+				else {
+					u.uzen("Nincs kiválasztott elem!");
+				}
+			}
+		});
 		
 		filterButton.addClickListener(new ClickListener() {
 			public void buttonClick(ClickEvent event) {
@@ -232,9 +268,10 @@ public class Oneletrajzok extends VerticalLayout implements View {
 			}
 		});		
 	}
-	
+		
 	@Override
 	public void enter(ViewChangeEvent event) {
 		if(oneletrajzok.size()  > 0) oneletrajzokTable.select(oneletrajzok.getIdByIndex(0));	
 	}
+	
 }

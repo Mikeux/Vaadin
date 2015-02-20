@@ -9,6 +9,8 @@ import javax.persistence.TypedQuery;
 
 import com.example.cv_catalog.model.Felhasznalok;
 import com.example.cv_catalog.model.Oneletrajz;
+import com.example.cv_catalog.views.Oneletrajzok;
+import com.example.cv_catalog.views.szotar_nyelvek;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.JPAContainerFactory;
 import com.vaadin.server.Page;
@@ -294,6 +296,8 @@ public class u {
 		MenuBar.Command kezdolap = new MenuBar.Command() {
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
+				ui.getNavigator().removeView("cvs");
+				ui.getNavigator().addView("cvs", new Oneletrajzok(ui));						
 				ui.getNavigator().navigateTo("cvs");
 			}  
 		};
@@ -302,13 +306,18 @@ public class u {
 		MenuBar.Command cvedit = new MenuBar.Command() {
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
-				Oneletrajz cv = new Oneletrajz();
-				cv.setFelhasznalok(u.LoginFelhasznalo);
-				cv.setHozzaadva(new java.util.Date());
-				u.EM.getTransaction().begin();
-				u.EM.persist(cv);
-				u.EM.getTransaction().commit();
-				ui.getNavigator().navigateTo("cv_edit/"+cv.getId());
+				if(u.LoginFelhasznalo != null) {
+					Oneletrajz cv = new Oneletrajz();
+					cv.setFelhasznalok(u.LoginFelhasznalo);
+					cv.setHozzaadva(new java.util.Date());
+					u.EM.getTransaction().begin();
+					u.EM.persist(cv);
+					u.EM.getTransaction().commit();			
+					ui.getNavigator().navigateTo("cv_edit/"+cv.getId());
+					
+				} else {
+					u.uzen("Nincs felhasználó bejelentkezve!");
+				}
 			}  
 		};
 		
