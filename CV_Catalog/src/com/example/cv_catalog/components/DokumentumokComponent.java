@@ -10,6 +10,7 @@ import com.vaadin.addon.jpacontainer.fieldfactory.SingleSelectConverter;
 import com.vaadin.data.Container.Filter;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
+import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.util.filter.Compare;
 import com.vaadin.ui.Button;
@@ -41,6 +42,8 @@ public class DokumentumokComponent  extends CustomComponent {
 	
 	private Button addButton, deleteButton,rogzitButton;
 	private DateField kezdete,vege;
+	
+	private Uploader receiver;
 	
 	private Oneletrajz cv;
 	
@@ -88,7 +91,8 @@ public class DokumentumokComponent  extends CustomComponent {
 		image.setVisible(false);
 		editFields.addComponents(image);
 		
-		Uploader receiver = new Uploader();
+		receiver = new Uploader();
+		receiver.oneletrajz = cv;
 		Upload upload = new Upload("Csatlomány feltöltése", receiver);
 		upload.setButtonCaption("Feltölt");
 		upload.addSucceededListener(receiver);
@@ -128,9 +132,18 @@ public class DokumentumokComponent  extends CustomComponent {
 	}
 	
 	public void init(){
+		
+		dokumentumTipusCombo.addValueChangeListener(new ValueChangeListener(){
+			@Override
+			public void valueChange(ValueChangeEvent event) {
+				receiver.Tipus = dokumentumTipusCombo.getValue().toString();
+			}
+			
+		});
+				
 		addButton.addClickListener(new ClickListener() {
 			public void buttonClick(ClickEvent event) {
-				dokumentumok.addEntity(new Dokumentumok(cv));
+				dokumentumok.addEntity(new Dokumentumok());
 				dokumentumokTable.select(dokumentumok.getIdByIndex(dokumentumok.size()-1));		
 				dokumentumokTable.setCurrentPageFirstItemIndex(dokumentumok.size()-1);
 			}

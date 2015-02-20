@@ -160,48 +160,6 @@ public class SzemelyesAdatokComponent extends CustomComponent {
             }
         });
 		
-		orszagokCombo.addValueChangeListener(new ValueChangeListener(){
-			@Override
-			public void valueChange(ValueChangeEvent event) {
-				//https://vaadin.com/book/-/page/datamodel.container.html
-				
-				/*
-				https://vaadin.com/forum#!/thread/997794
-				https://vaadin.com/forum#!/thread/19674
-				https://vaadin.com/book/vaadin7/-/page/jpacontainer.fieldfactory.html
-				
-				https://vaadin.com/forum/#!/thread/587861/1189437
-				https://vaadin.com/book/-/page/components.table.html
-				http://stackoverflow.com/questions/15972920/vaadin-sqlcontainer-reference-how-to-implement-foreign-key-relation
-				*/
-				//szemelyesAdatok.getContainerProperty(szemelyesAdatokTable.getValue(), "orszagok.id")
-				//Orszagok o = orszagok.getItem(event.getProperty().getValue()).getEntity();
-				//Item item = szemelyesAdatok.getItem(szemelyesAdatokTable.getValue());
-				//SzemelyesAdatok sza= szemelyesAdatok.getItem(szemelyesAdatokTable.getValue()).getEntity();
-				//u.uzen(item.getItemProperty("telefonszam").getValue().toString());
-				//u.uzen(sza.getKeresztNev());
-				
-				//szemelyesAdatokTable.setBuffered(true);
-				
-				//szemelyesAdatok.getItem(szemelyesAdatokTable.getValue()).getEntity().setOrszagok(o);
-				
-				//u.uzen(szemelyesAdatok.getItem(szemelyesAdatokTable.getValue()).isModified()+"");
-				
-				//item.getItemProperty("orszagok.id").setValue(o.getId());
-				//Orszagok o = orszagok.getItem(event.getProperty().getValue()).getEntity();
-				//u.uzen(o.getNyelvkod());
-				//u.uzen(szemelyesAdatok.getIdByIndex(0)+"");
-				//szemelyesAdatok.getItem(szemelyesAdatok.getIdByIndex(0)).getEntity().setOrszagok(o);
-				//szemelyesAdatokTable.setContainerDataSource();
-				
-				//new SingleSelectConverter<ProductType>(cbType)
-				
-				//szemelyesAdatok.commit();
-				//szemelyesAdatok.refresh();
-				//szemelyesAdatokTable.commit();
-				//szemelyesAdatokTable.setBuffered(false);
-			}			
-		});
 		rogzitButton.addClickListener(new ClickListener() {
 			public void buttonClick(ClickEvent event) {
 				szemelyesAdatok.commit();

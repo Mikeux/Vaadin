@@ -33,9 +33,10 @@ public class Dokumentumok implements Serializable {
 	public Dokumentumok() {
 	}
 	
-	public Dokumentumok(Oneletrajz cv) {
+	public Dokumentumok(Oneletrajz cv, DokumentumTipus tipus, String fnev) {
 		this.oneletrajz = cv;
-		this.fajlNeve = "";
+		this.dokumentum_tipus = tipus;
+		this.fajlNeve = fnev;
 	}
 
 	public int getId() {

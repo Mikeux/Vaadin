@@ -27,7 +27,7 @@ public class DokumentumTipus implements Serializable {
 
 	public DokumentumTipus() {
 	}
-
+	
 	public int getId() {
 		return this.id;
 	}
