@@ -207,11 +207,13 @@ public class Oneletrajzok extends VerticalLayout implements View {
 		
 		editButton.addClickListener(new ClickListener() {
 			public void buttonClick(ClickEvent event) {
-				Object sor = (int)oneletrajzokTable.getValue();
-				if(sor != null) {
-					getUI().getNavigator().navigateTo("cv_edit/"+oneletrajzok.getItem(sor).getItemProperty("id").getValue());
-				}else  {
-					u.uzen("Nincs kiválasztott elem!");
+				if(oneletrajzokTable.getValue() != null){
+					Object sor = (int)oneletrajzokTable.getValue();
+					if(sor != null) {
+						getUI().getNavigator().navigateTo("cv_edit/"+oneletrajzok.getItem(sor).getItemProperty("id").getValue());
+					}else  {
+						u.uzen("Nincs kiválasztott elem!");
+					}
 				}
 			}
 		});

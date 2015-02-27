@@ -1,6 +1,9 @@
 package com.example.cv_catalog.components;
 
+import javax.persistence.TypedQuery;
+
 import com.example.cv_catalog.Uploader;
+import com.example.cv_catalog.u;
 import com.example.cv_catalog.model.DokumentumTipus;
 import com.example.cv_catalog.model.Dokumentumok;
 import com.example.cv_catalog.model.Oneletrajz;
@@ -83,13 +86,13 @@ public class DokumentumokComponent  extends CustomComponent {
 		rogzitButton = new Button("Rögzít");
 		layout.addComponents(addButton,deleteButton,rogzitButton);
 		
-		ProgressBar bar = new ProgressBar();
+		/*ProgressBar bar = new ProgressBar();
 		bar.setVisible(false);
 		bar.setIndeterminate(true);		
 		
 		Embedded image = new Embedded("Feltöltött kép");
 		image.setVisible(false);
-		editFields.addComponents(image);
+		editFields.addComponents(image);*/
 		
 		receiver = new Uploader();
 		receiver.oneletrajz = cv;
@@ -120,13 +123,14 @@ public class DokumentumokComponent  extends CustomComponent {
         layout.setSizeFull();
         dokumentumokTable.setSizeFull();
 
+        
     
         setCompositionRoot(layout);
         
-        if(dokumentumok.size() > 0) dokumentumokTable.select(dokumentumok.getIdByIndex(0));
+        /*if(dokumentumok.size() > 0) dokumentumokTable.select(dokumentumok.getIdByIndex(0));
         else {
         	//leiras.setEnabled(false);
-        }
+        }*/
         
         init();
 	}
@@ -136,7 +140,10 @@ public class DokumentumokComponent  extends CustomComponent {
 		dokumentumTipusCombo.addValueChangeListener(new ValueChangeListener(){
 			@Override
 			public void valueChange(ValueChangeEvent event) {
-				receiver.Tipus = dokumentumTipusCombo.getValue().toString();
+				TypedQuery<DokumentumTipus> query = u.EM.createQuery("SELECT dt FROM DokumentumTipus dt WHERE dt.id="+dokumentumTipusCombo.getValue().toString(), DokumentumTipus.class);
+				receiver.dok_tipus = query.getSingleResult();
+				//receiver.Tipus = dokumentumTipusCombo.getValue().toString();
+				//u.uzen(dokumentumTipusCombo.getValue().toString());
 			}
 			
 		});

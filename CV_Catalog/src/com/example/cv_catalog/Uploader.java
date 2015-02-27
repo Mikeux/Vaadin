@@ -16,10 +16,11 @@ import com.vaadin.ui.Upload.SucceededListener;
 
 public class Uploader implements Receiver, SucceededListener {
 	public File file;
-	public String Tipus;
 	public Oneletrajz oneletrajz;
+	public DokumentumTipus dok_tipus;
 	
-	
+	private String FileName = "";
+		
 	public OutputStream receiveUpload(String filename,String mimeType) {
 		
 		//https://vaadin.com/book/vaadin6/-/page/application.resources.html
@@ -49,6 +50,7 @@ public class Uploader implements Receiver, SucceededListener {
 		//File folder = new File ( System.getProperty( "user.home" ) + File.separator + "myfolder" ).mkdir();
 				
 		try {
+			this.FileName = filename;
 			file = new File(u.basepath + "/" + filename);
 			fos = new FileOutputStream(file);
 
@@ -65,14 +67,10 @@ public class Uploader implements Receiver, SucceededListener {
 
 	@Override
 	public void uploadSucceeded(SucceededEvent event) {
-		// Show the uploaded file in the image viewer
-		u.uzen("Kész");
-		//DokumentumTipus dt = new Dok
-		/*System.out.println(u.basepath + "/" + filename);
-		Dokumentumok dok = new Dokumentumok(this.oneletrajz,new DokumentumTipus(),u.basepath + "/" + filename);
-		
+		new Notification("Sikeres csatolmány feltöltés!",Notification.TYPE_HUMANIZED_MESSAGE).show(Page.getCurrent());
+		Dokumentumok dok = new Dokumentumok(this.oneletrajz,dok_tipus,this.FileName);
 		u.EM.getTransaction().begin();
 		u.EM.persist(dok);
-		u.EM.getTransaction().commit();	*/
+		u.EM.getTransaction().commit();
 	}
 };
