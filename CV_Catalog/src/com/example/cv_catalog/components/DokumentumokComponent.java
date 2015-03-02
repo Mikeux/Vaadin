@@ -1,5 +1,7 @@
 package com.example.cv_catalog.components;
 
+import java.io.File;
+
 import javax.persistence.TypedQuery;
 
 import com.example.cv_catalog.Uploader;
@@ -11,11 +13,16 @@ import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.JPAContainerFactory;
 import com.vaadin.addon.jpacontainer.fieldfactory.SingleSelectConverter;
 import com.vaadin.data.Container.Filter;
+import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.util.filter.Compare;
+import com.vaadin.server.FileDownloader;
+import com.vaadin.server.FileResource;
+import com.vaadin.server.Page;
+import com.vaadin.server.Resource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -24,6 +31,7 @@ import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.Embedded;
 import com.vaadin.ui.FormLayout;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.ProgressBar;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.TextArea;
@@ -42,8 +50,9 @@ public class DokumentumokComponent  extends CustomComponent {
 
 	private TextArea leiras;
 	private ComboBox dokumentumTipusCombo;
+	private Upload upload;
 	
-	private Button addButton, deleteButton,rogzitButton;
+	private Button addButton, deleteButton,rogzitButton, letoltButton;
 	private DateField kezdete,vege;
 	
 	private Uploader receiver;
@@ -66,8 +75,13 @@ public class DokumentumokComponent  extends CustomComponent {
 		dokumentumokTable.addValueChangeListener(new Property.ValueChangeListener() {
 			public void valueChange(ValueChangeEvent event) {
 				Object id = dokumentumokTable.getValue();
-				if (id != null) {
+				if (id != null) {			
+					//u.uzen(dokumentumokTable.getItem(id).getItemProperty("dokumentum_tipus.id")+" => "+dokumentumokTable.getItem(id).getItemProperty("dokumentum_tipus.megnevezes"));
+					//dokumentumTipusCombo.setData(dokumentumokTable.getItem(id).getItemProperty("dokumentum_tipus.id"));
+					//dokumentumTipusCombo.select(dokumentumokTable.getItem(id).getItemProperty("dokumentum_tipus.megnevezes"));
+					//u.uzen(dokumentumokTable.getItem(id).getItemProperty("dokumentum_tipus.id")+"");
 					editorFields.setItemDataSource(dokumentumokTable.getItem(id));
+					//if(dokumentumokTable.getItem(id).getItemProperty("dokumentum_tipus.megnevezes"))
 				}
 			}
 		});
@@ -81,10 +95,13 @@ public class DokumentumokComponent  extends CustomComponent {
 		dokumentumokTable.setPageLength(5);
 		layout.addComponent(dokumentumokTable);
         		
-		addButton = new Button("Hozzáad");
+		//addButton = new Button("Hozzáad");
 		deleteButton = new Button("Töröl");
-		rogzitButton = new Button("Rögzít");
-		layout.addComponents(addButton,deleteButton,rogzitButton);
+		//rogzitButton = new Button("Rögzít");
+		letoltButton = new Button("Letölt");
+		
+		layout.addComponents(new HorizontalLayout(deleteButton,letoltButton));
+		//layout.addComponent(letoltButton);
 		
 		/*ProgressBar bar = new ProgressBar();
 		bar.setVisible(false);
@@ -96,7 +113,7 @@ public class DokumentumokComponent  extends CustomComponent {
 		
 		receiver = new Uploader();
 		receiver.oneletrajz = cv;
-		Upload upload = new Upload("Csatlomány feltöltése", receiver);
+		upload = new Upload("Csatolmány feltöltése", receiver);
 		upload.setButtonCaption("Feltölt");
 		upload.addSucceededListener(receiver);
 		//upload.addStartedListener(listener);
@@ -107,12 +124,12 @@ public class DokumentumokComponent  extends CustomComponent {
 		panel.setContent(panelContent);*/
 		editFields.addComponents(upload);
 				
-		dokumentumTipusCombo = new ComboBox("Csaktolmány típusa:", dokumentumTipus);
+		dokumentumTipusCombo = new ComboBox("Csatolmány típusa:", dokumentumTipus);
 		dokumentumTipusCombo.setContainerDataSource(dokumentumTipus);
 		dokumentumTipusCombo.setItemCaptionPropertyId("megnevezes");
 		dokumentumTipusCombo.setConverter(new SingleSelectConverter(dokumentumTipusCombo));
 		editFields.addComponents(dokumentumTipusCombo);
-		editorFields.bind(dokumentumTipusCombo, "dokumentumTipus");	
+		editorFields.bind(dokumentumTipusCombo, "dokumentum_tipus");	
 		
 		editorFields.setBuffered(false);		
 		editFields.setSizeUndefined();
@@ -127,15 +144,31 @@ public class DokumentumokComponent  extends CustomComponent {
     
         setCompositionRoot(layout);
         
-        /*if(dokumentumok.size() > 0) dokumentumokTable.select(dokumentumok.getIdByIndex(0));
+        if(dokumentumok.size() > 0) dokumentumokTable.select(dokumentumok.getIdByIndex(0));
         else {
-        	//leiras.setEnabled(false);
-        }*/
+        	deleteButton.setEnabled(false);
+        	letoltButton.setEnabled(false);
+        	//upload.setEnabled(false);
+        }
         
         init();
 	}
 	
 	public void init(){
+		
+		letoltButton.addClickListener(new ClickListener() {
+			public void buttonClick(ClickEvent event) {
+				Object Id = dokumentumokTable.getValue();
+				Item currentItem = dokumentumokTable.getItem(Id);
+				File fajl = new File(u.basepath + 
+						"/Dokumentumok/"+currentItem.getItemProperty("id").getValue()+"/"+
+						currentItem.getItemProperty("fajlNeve").getValue());
+				Resource res = new FileResource(fajl);
+				Page.getCurrent().open(res, null, false);
+				//FileDownloader fd = new FileDownloader(res);				
+				//fd.extend(letoltButton);
+			}
+		});
 		
 		dokumentumTipusCombo.addValueChangeListener(new ValueChangeListener(){
 			@Override
@@ -148,31 +181,49 @@ public class DokumentumokComponent  extends CustomComponent {
 			
 		});
 				
-		addButton.addClickListener(new ClickListener() {
+		/*addButton.addClickListener(new ClickListener() {
 			public void buttonClick(ClickEvent event) {
 				dokumentumok.addEntity(new Dokumentumok());
 				dokumentumokTable.select(dokumentumok.getIdByIndex(dokumentumok.size()-1));		
 				dokumentumokTable.setCurrentPageFirstItemIndex(dokumentumok.size()-1);
 			}
-		});
+		});*/
 		
 		deleteButton.addClickListener(new ClickListener() {
 			public void buttonClick(ClickEvent event) {
+				boolean ok = true;
 				Object contactId = dokumentumokTable.getValue();
-				dokumentumokTable.removeItem(contactId);
-				if(dokumentumok.size()  > 0) dokumentumokTable.select(dokumentumok.getIdByIndex(0));
+				Item currentItem = dokumentumokTable.getItem(contactId);
+				
+				File fajl = new File(u.basepath + 
+						"/Dokumentumok/"+currentItem.getItemProperty("id").getValue()+"/"+
+						currentItem.getItemProperty("fajlNeve").getValue());
+				ok = fajl.delete();
+				
+				if(ok) {
+					dokumentumokTable.removeItem(contactId);
+				}
+				else {
+					u.uzenHiba("Hiba", "Nem sikerült a csatolmány törlése!");
+				}
+				
+				if(dokumentumok.size()  > 0) {
+					dokumentumokTable.select(dokumentumok.getIdByIndex(0));
+				}
 				else
 				{
-					//leiras.setEnabled(false);
+		        	letoltButton.setEnabled(false);
+		        	//upload.setEnabled(false);
+		        	deleteButton.setEnabled(false);
 				}
 			}
 		});
 		
-		rogzitButton.addClickListener(new ClickListener() {
+		/*rogzitButton.addClickListener(new ClickListener() {
 			public void buttonClick(ClickEvent event) {
 				dokumentumok.commit();
 			}
-		});
+		});*/
 	}
 	
 }

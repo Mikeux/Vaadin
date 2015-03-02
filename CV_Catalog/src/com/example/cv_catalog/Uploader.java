@@ -51,7 +51,7 @@ public class Uploader implements Receiver, SucceededListener {
 				
 		try {
 			this.FileName = filename;
-			file = new File(u.basepath + "/" + filename);
+			file = new File(u.basepath + "/Dokumentumok/"+this.oneletrajz.getId()+"/" + filename);
 			fos = new FileOutputStream(file);
 
 			

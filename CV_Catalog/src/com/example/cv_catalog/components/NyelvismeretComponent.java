@@ -135,8 +135,8 @@ public class NyelvismeretComponent  extends CustomComponent {
 				if(nyelvismeret.size()  > 0) nyelvismeretTable.select(nyelvismeret.getIdByIndex(0));
 				else
 				{
-        	nyelvCombo.setEnabled(false);
-        	nyelvszintCombo.setEnabled(false);
+		        	nyelvCombo.setEnabled(false);
+		        	nyelvszintCombo.setEnabled(false);
 				}
 			}
 		});
