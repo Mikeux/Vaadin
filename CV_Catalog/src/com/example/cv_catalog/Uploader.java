@@ -22,10 +22,12 @@ public class Uploader implements Receiver, SucceededListener {
 	private String FileName = "";
 		
 	public OutputStream receiveUpload(String filename,String mimeType) {
-
+		File Dir = new File(u.basepath + "/Dokumentumok/"+this.oneletrajz.getId());
 		FileOutputStream fos = null;
 				
 		try {
+			if(!Dir.exists()) Dir.mkdirs();
+			
 			if(dok_tipus != null){
 				this.FileName = filename;
 				file = new File(u.basepath + "/Dokumentumok/"+this.oneletrajz.getId()+"/" + filename);
@@ -40,7 +42,6 @@ public class Uploader implements Receiver, SucceededListener {
 			return null;
 		}
 		return fos; // Return the output stream to write to
-		
 	}
 
 	@Override

@@ -53,6 +53,8 @@ public class szotar_nyelvi_szint extends VerticalLayout implements View {
 		//orszagok.addEntity(new Orszagok("Marie-Louise Meilleur", 117));
 		//orszagok.sort(new String[]{"orszag", "megnevezes"},new boolean[]{false, false});
 		nyelvi_szintTable = new Table("Nyelvtudás szintje", nyelvi_szint);
+		nyelvi_szintTable.setColumnHeader("id", "Azonosító");	
+		nyelvi_szintTable.setColumnHeader("megnevezes", "Megnevezés");		
 		nyelvi_szintTable.addValueChangeListener(new Property.ValueChangeListener() {
 			public void valueChange(ValueChangeEvent event) {
 				Object id = nyelvi_szintTable.getValue();
@@ -62,13 +64,12 @@ public class szotar_nyelvi_szint extends VerticalLayout implements View {
 			}
 		});
 		
-		
 		nyelvi_szintTable.setVisibleColumns("id","megnevezes");
 		nyelvi_szintTable.setSelectable(true);
 		nyelvi_szintTable.setImmediate(true);	
 		tableLayout.addComponent(nyelvi_szintTable);
 		
-		id_field = new TextField("Id:");	
+		id_field = new TextField("Azonosító:");	
 		editLayout.addComponents(id_field);
 		editorFields.bind(id_field, "id");	
 		

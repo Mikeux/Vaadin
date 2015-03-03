@@ -67,12 +67,16 @@ public class TanulmanyokComponent extends CustomComponent {
 				if (id != null) {
 					editorFields.setItemDataSource(tanulmanyAdatokTable.getItem(id));
 				}
-				id_field.setReadOnly(true);
+				//id_field.setReadOnly(true);
 			}
 		});
-		tanulmanyAdatokTable.setVisibleColumns("id", "neve","kezdete","vege","kepzesSzint.megnvezes");
+		tanulmanyAdatokTable.setVisibleColumns("neve","kezdete","vege","kepzesSzint.megnvezes");
 		tanulmanyAdatokTable.setColumnWidth("neve", 400);
-		//tanulmanyAdatokTable.setColumnHeader("felhasznalok.nev", "Készítette");
+		tanulmanyAdatokTable.setColumnHeader("neve", "Képzés neve");		
+		tanulmanyAdatokTable.setColumnHeader("kezdete", "Kezdete");
+		tanulmanyAdatokTable.setColumnHeader("vege", "Vége");
+		tanulmanyAdatokTable.setColumnHeader("kepzesSzint.megnvezes", "Szintje");
+		
 		//tanulmanyAdatokTable.setColumnHeader("hozzaadva", "Hozzáadva");
 		tanulmanyAdatokTable.setSelectable(true);
 		tanulmanyAdatokTable.setImmediate(true); 
@@ -84,9 +88,9 @@ public class TanulmanyokComponent extends CustomComponent {
 		rogzitButton = new Button("Rögzít");
 		layout.addComponents(addButton,deleteButton,rogzitButton);
 		
-		id_field = new TextField("Id:");	
+		/*id_field = new TextField("Id:");	
 		editFields.addComponents(id_field);
-		editorFields.bind(id_field, "id");
+		editorFields.bind(id_field, "id");*/
 		
 		neve = new TextArea("Képzés neve:");	
 		editFields.addComponents(neve);
@@ -177,6 +181,7 @@ public class TanulmanyokComponent extends CustomComponent {
 		rogzitButton.addClickListener(new ClickListener() {
 			public void buttonClick(ClickEvent event) {
 				tanulmanyAdatok.commit();
+				tanulmanyAdatokTable.refreshRowCache();
 			}
 		});
 	}

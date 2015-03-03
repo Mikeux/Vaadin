@@ -76,12 +76,17 @@ public class SzemelyesAdatokComponent extends CustomComponent {
 					//orszagokCombo.setValue(szemelyesAdatok.getContainerProperty(szemelyesAdatokTable.getValue(), "orszagok.id").getValue());
 					//nyelvekCombo.setValue(szemelyesAdatok.getContainerProperty(szemelyesAdatokTable.getValue(), "nyelvek.id").getValue());
 				}
-				id_field.setReadOnly(true);
+				//id_field.setReadOnly(true);
 			}
 		});
-		szemelyesAdatokTable.setVisibleColumns("id", "vezetekNev","keresztNev","szulIdo","telefonszam","orszagok.megnevezes","nyelvek.nyelv");
-		//szemelyesAdatokTable.setColumnHeader("felhasznalok.nev", "Készítette");
-		//szemelyesAdatokTable.setColumnHeader("hozzaadva", "Hozzáadva");
+		szemelyesAdatokTable.setVisibleColumns("vezetekNev","keresztNev","szulIdo","telefonszam","orszagok.megnevezes","nyelvek.nyelv");
+		szemelyesAdatokTable.setColumnHeader("vezetekNev", "Vezeték név");
+		szemelyesAdatokTable.setColumnHeader("keresztNev", "Vezeték név");
+		szemelyesAdatokTable.setColumnHeader("szulIdo", "Születési idõ");
+		szemelyesAdatokTable.setColumnHeader("telefonszam", "Telefonszám");
+		szemelyesAdatokTable.setColumnHeader("orszagok.megnevezes", "Származási ország");
+		szemelyesAdatokTable.setColumnHeader("nyelvek.nyelv", "Anyanyelv");
+		
 		szemelyesAdatokTable.setSelectable(true);
 		szemelyesAdatokTable.setImmediate(true); 
 		szemelyesAdatokTable.setPageLength(1);
@@ -90,9 +95,9 @@ public class SzemelyesAdatokComponent extends CustomComponent {
 		rogzitButton = new Button("Rögzít");
 		layout.addComponents(rogzitButton);
 		
-		id_field = new TextField("Id:");	
+		/*id_field = new TextField("Id:");	
 		editFields.addComponents(id_field);
-		editorFields.bind(id_field, "id");
+		editorFields.bind(id_field, "id");*/
 		
 		TextField vezetekNev = new TextField("Vezeték név:");	
 		editFields.addComponents(vezetekNev);
@@ -163,6 +168,7 @@ public class SzemelyesAdatokComponent extends CustomComponent {
 		rogzitButton.addClickListener(new ClickListener() {
 			public void buttonClick(ClickEvent event) {
 				szemelyesAdatok.commit();
+				szemelyesAdatokTable.refreshRowCache();
 			}
 		});
 	}

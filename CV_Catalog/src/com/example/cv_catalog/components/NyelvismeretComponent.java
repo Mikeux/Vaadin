@@ -144,6 +144,7 @@ public class NyelvismeretComponent  extends CustomComponent {
 		rogzitButton.addClickListener(new ClickListener() {
 			public void buttonClick(ClickEvent event) {
 				nyelvismeret.commit();
+				nyelvismeretTable.refreshRowCache();
 			}
 		});
 	}

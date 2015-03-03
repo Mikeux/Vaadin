@@ -78,12 +78,7 @@ public class DokumentumokComponent  extends CustomComponent {
 			public void valueChange(ValueChangeEvent event) {
 				Object id = dokumentumokTable.getValue();
 				if (id != null) {			
-					//u.uzen(dokumentumokTable.getItem(id).getItemProperty("dokumentum_tipus.id")+" => "+dokumentumokTable.getItem(id).getItemProperty("dokumentum_tipus.megnevezes"));
-					//dokumentumTipusCombo.setData(dokumentumokTable.getItem(id).getItemProperty("dokumentum_tipus.id"));
-					//dokumentumTipusCombo.select(dokumentumokTable.getItem(id).getItemProperty("dokumentum_tipus.megnevezes"));
-					//u.uzen(dokumentumokTable.getItem(id).getItemProperty("dokumentum_tipus.id")+"");
 					editorFields.setItemDataSource(dokumentumokTable.getItem(id));
-					//if(dokumentumokTable.getItem(id).getItemProperty("dokumentum_tipus.megnevezes"))
 				}
 			}
 		});
@@ -104,15 +99,7 @@ public class DokumentumokComponent  extends CustomComponent {
 		
 		layout.addComponents(new HorizontalLayout(deleteButton,letoltButton));
 		//layout.addComponent(letoltButton);
-		
-		/*ProgressBar bar = new ProgressBar();
-		bar.setVisible(false);
-		bar.setIndeterminate(true);		
-		
-		Embedded image = new Embedded("Feltöltött kép");
-		image.setVisible(false);
-		editFields.addComponents(image);*/
-		
+				
 		Panel panel = new Panel("Új csatolmány hozzáadása");
 		Layout panelContent = new VerticalLayout();
 		//panel.setSizeUndefined();
@@ -120,22 +107,13 @@ public class DokumentumokComponent  extends CustomComponent {
 		
 		receiver = new Uploader();
 		receiver.oneletrajz = cv;
-		upload = new Upload("Csatolmány feltöltése", receiver);
+		upload = new Upload("", receiver);
 		//upload.setButtonCaption("Feltölt");
 		upload.setButtonCaption(null);
 		upload.addSucceededListener(receiver);
 		upload.setImmediate(false);
 		//upload.submitUpload();
-		
-		//upload.submitUpload();
-		//upload.addStartedListener(listener);
-		//upload.addProgressListener(receiver);
-		/*Panel panel = new Panel("Cool Image Storage");
-		Layout panelContent = new VerticalLayout();
-		panelContent.addComponents(upload, image);
-		panel.setContent(panelContent);*/
-		//editFields.addComponents(upload);
-				
+						
 		dokumentumTipusCombo = new ComboBox("Csatolmány típusa:", dokumentumTipus);
 		dokumentumTipusCombo.setContainerDataSource(dokumentumTipus);
 		dokumentumTipusCombo.setItemCaptionPropertyId("megnevezes");
@@ -176,17 +154,36 @@ public class DokumentumokComponent  extends CustomComponent {
 	
 	public void init(){
 		
+		feltoltButton.addClickListener(new ClickListener() {
+			public void buttonClick(ClickEvent event) {
+				Object Id = dokumentumTipusCombo.getValue();
+				if(Id == null) u.uzenHiba("Hiba", "A dokumentum típusának megadása kötelezõ!");
+				else {
+					upload.submitUpload();
+					try {
+						Thread.sleep(2000);
+						dokumentumTipusCombo.setData(null);
+						dokumentumokTable.refreshRowCache();	
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}					
+				}
+			}
+		});
+		
 		letoltButton.addClickListener(new ClickListener() {
 			public void buttonClick(ClickEvent event) {
 				Object Id = dokumentumokTable.getValue();
 				Item currentItem = dokumentumokTable.getItem(Id);
-				File fajl = new File(u.basepath + 
-						"/Dokumentumok/"+currentItem.getItemProperty("id").getValue()+"/"+
-						currentItem.getItemProperty("fajlNeve").getValue());
-				Resource res = new FileResource(fajl);
-				Page.getCurrent().open(res, null, false);
-				//FileDownloader fd = new FileDownloader(res);				
-				//fd.extend(letoltButton);
+				try {
+					File fajl = new File(u.basepath + 
+					"/Dokumentumok/"+cv.getId()+"/"+currentItem.getItemProperty("fajlNeve").getValue());
+					Resource res = new FileResource(fajl);
+					Page.getCurrent().open(res, null, false);
+				}catch (Exception ex) {
+					u.uzenHiba("Hiba", "A csatolmány letöltése nem sikerült! "+ex.getMessage());
+				}
 			}
 		});
 		
@@ -219,8 +216,7 @@ public class DokumentumokComponent  extends CustomComponent {
 				Item currentItem = dokumentumokTable.getItem(contactId);
 				
 				File fajl = new File(u.basepath + 
-						"/Dokumentumok/"+currentItem.getItemProperty("id").getValue()+"/"+
-						currentItem.getItemProperty("fajlNeve").getValue());
+						"/Dokumentumok/"+cv.getId()+"/"+currentItem.getItemProperty("fajlNeve").getValue());
 				ok = fajl.delete();
 				
 				if(ok) {
@@ -236,7 +232,6 @@ public class DokumentumokComponent  extends CustomComponent {
 				else
 				{
 		        	letoltButton.setEnabled(false);
-		        	//upload.setEnabled(false);
 		        	deleteButton.setEnabled(false);
 				}
 			}

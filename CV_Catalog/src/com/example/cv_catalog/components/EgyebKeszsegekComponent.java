@@ -115,6 +115,7 @@ public class EgyebKeszsegekComponent  extends CustomComponent {
 		rogzitButton.addClickListener(new ClickListener() {
 			public void buttonClick(ClickEvent event) {
 				egyebkeszsegek.commit();
+				egyebkeszsegekTable.refreshRowCache();
 			}
 		});
 	}

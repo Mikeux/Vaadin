@@ -50,6 +50,10 @@ public class szotar_nyelvek  extends VerticalLayout implements View {
 		
 		nyelvek = JPAContainerFactory.make(Nyelvek.class, "CV_Catalog");
 		nyelvekTable = new Table("Nyelvek kezelése", nyelvek);
+		nyelvekTable.setColumnHeader("id", "Azonosító");	
+		nyelvekTable.setColumnHeader("nyelvkod", "Nyelvkód");	
+		nyelvekTable.setColumnHeader("nyelv", "Megnevezés");	
+		nyelvekTable.setColumnHeader("karakterKeszlet", "Karakterkészlet");	
 		nyelvekTable.addValueChangeListener(new Property.ValueChangeListener() {
 			public void valueChange(ValueChangeEvent event) {
 				Object o = nyelvekTable.getValue();
@@ -65,11 +69,11 @@ public class szotar_nyelvek  extends VerticalLayout implements View {
 		nyelvekTable.setImmediate(true);	
 		tableLayout.addComponent(nyelvekTable);
 				
-		id = new TextField("Nyelvkód id:");	
+		id = new TextField("Azonosító:");	
 		editLayout.addComponents(id);
 		editorFields.bind(id, "id");		
 		
-		nyelvkod = new TextField("Nyelvkód kód:");	
+		nyelvkod = new TextField("Nyelvkód:");	
 		editLayout.addComponents(nyelvkod);
 		editorFields.bind(nyelvkod, "nyelvkod");	
 		nyelvkod.setMaxLength(4);

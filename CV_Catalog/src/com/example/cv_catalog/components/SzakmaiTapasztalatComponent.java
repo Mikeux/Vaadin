@@ -66,12 +66,16 @@ public class SzakmaiTapasztalatComponent extends CustomComponent {
 				if (id != null) {
 					editorFields.setItemDataSource(szakmaiTapasztalatTable.getItem(id));					
 				}
-				id_field.setReadOnly(true);
+				//id_field.setReadOnly(true);
 			}
 		});
-		szakmaiTapasztalatTable.setVisibleColumns("id", "munkaadoNeve","kezdete","vege","leiras","pozicioNeve");
-		//tanulmanyAdatokTable.setColumnHeader("felhasznalok.nev", "Készítette");
-		//tanulmanyAdatokTable.setColumnHeader("hozzaadva", "Hozzáadva");
+		szakmaiTapasztalatTable.setVisibleColumns("munkaadoNeve","kezdete","vege","leiras","pozicioNeve");
+		szakmaiTapasztalatTable.setColumnHeader("munkaadoNeve", "Munkaadó neve");
+		szakmaiTapasztalatTable.setColumnHeader("kezdete", "Kezdete");
+		szakmaiTapasztalatTable.setColumnHeader("vege", "Vége");
+		szakmaiTapasztalatTable.setColumnHeader("leiras", "Leírás");
+		szakmaiTapasztalatTable.setColumnHeader("pozicioNeve", "Pozíció");
+		
 		szakmaiTapasztalatTable.setSelectable(true);
 		szakmaiTapasztalatTable.setImmediate(true); 
 		szakmaiTapasztalatTable.setPageLength(5);
@@ -82,9 +86,9 @@ public class SzakmaiTapasztalatComponent extends CustomComponent {
 		rogzitButton = new Button("Rögzít");
 		layout.addComponents(addButton,deleteButton,rogzitButton);
 		
-		id_field = new TextField("Id:");	
+		/*id_field = new TextField("Id:");	
 		editFields.addComponents(id_field);
-		editorFields.bind(id_field, "id");
+		editorFields.bind(id_field, "id");*/
 		
 		kezdete = new DateField("Kezdete:");	
 		editFields.addComponents(kezdete);
@@ -181,6 +185,7 @@ public class SzakmaiTapasztalatComponent extends CustomComponent {
 		rogzitButton.addClickListener(new ClickListener() {
 			public void buttonClick(ClickEvent event) {
 				szakmaiTapasztalat.commit();
+				szakmaiTapasztalatTable.refreshRowCache();
 			}
 		});
 	

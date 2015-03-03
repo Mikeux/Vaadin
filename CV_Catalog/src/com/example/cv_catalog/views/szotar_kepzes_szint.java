@@ -65,6 +65,8 @@ public class szotar_kepzes_szint extends VerticalLayout implements View {
 		//orszagok.addEntity(new Orszagok("Marie-Louise Meilleur", 117));
 		//orszagok.sort(new String[]{"orszag", "megnevezes"},new boolean[]{false, false});
 		kepzes_szintTable = new Table("Képzés szintje", kepzes_szint);
+		kepzes_szintTable.setColumnHeader("id", "Azonosító");	
+		kepzes_szintTable.setColumnHeader("megnvezes", "Megnevezés");	
 		kepzes_szintTable.addValueChangeListener(new Property.ValueChangeListener() {
 			public void valueChange(ValueChangeEvent event) {
 				Object id = kepzes_szintTable.getValue();
@@ -80,7 +82,7 @@ public class szotar_kepzes_szint extends VerticalLayout implements View {
 		kepzes_szintTable.setImmediate(true);	
 		tableLayout.addComponent(kepzes_szintTable);
 		
-		id_field = new TextField("Id:");	
+		id_field = new TextField("Azonosító:");	
 		editLayout.addComponents(id_field);
 		editorFields.bind(id_field, "id");	
 		

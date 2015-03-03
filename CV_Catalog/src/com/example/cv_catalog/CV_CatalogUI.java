@@ -52,7 +52,8 @@ public class CV_CatalogUI extends UI {
 						messages.setCommunicationErrorCaption("Kommunikációs hiba!");
 						messages.setCommunicationErrorMessage("Ez nem valami jó!");
 						messages.setCommunicationErrorNotificationEnabled(true);
-						messages.setCommunicationErrorURL("http://sg.hu");
+						//messages.setCommunicationErrorURL("http://sg.hu");
+						messages.setCommunicationErrorURL("http://localhost:8080/CV_Catalog");
 						return messages;
 					}
 				});
