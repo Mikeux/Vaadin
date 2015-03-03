@@ -32,6 +32,8 @@ import com.vaadin.ui.DateField;
 import com.vaadin.ui.Embedded;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Layout;
+import com.vaadin.ui.Panel;
 import com.vaadin.ui.ProgressBar;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.TextArea;
@@ -52,7 +54,7 @@ public class DokumentumokComponent  extends CustomComponent {
 	private ComboBox dokumentumTipusCombo;
 	private Upload upload;
 	
-	private Button addButton, deleteButton,rogzitButton, letoltButton;
+	private Button addButton, deleteButton,rogzitButton, letoltButton, feltoltButton;
 	private DateField kezdete,vege;
 	
 	private Uploader receiver;
@@ -111,30 +113,48 @@ public class DokumentumokComponent  extends CustomComponent {
 		image.setVisible(false);
 		editFields.addComponents(image);*/
 		
+		Panel panel = new Panel("Új csatolmány hozzáadása");
+		Layout panelContent = new VerticalLayout();
+		//panel.setSizeUndefined();
+		//panelContent.setSizeUndefined();
+		
 		receiver = new Uploader();
 		receiver.oneletrajz = cv;
 		upload = new Upload("Csatolmány feltöltése", receiver);
-		upload.setButtonCaption("Feltölt");
+		//upload.setButtonCaption("Feltölt");
+		upload.setButtonCaption(null);
 		upload.addSucceededListener(receiver);
+		upload.setImmediate(false);
+		//upload.submitUpload();
+		
+		//upload.submitUpload();
 		//upload.addStartedListener(listener);
 		//upload.addProgressListener(receiver);
 		/*Panel panel = new Panel("Cool Image Storage");
 		Layout panelContent = new VerticalLayout();
 		panelContent.addComponents(upload, image);
 		panel.setContent(panelContent);*/
-		editFields.addComponents(upload);
+		//editFields.addComponents(upload);
 				
 		dokumentumTipusCombo = new ComboBox("Csatolmány típusa:", dokumentumTipus);
 		dokumentumTipusCombo.setContainerDataSource(dokumentumTipus);
 		dokumentumTipusCombo.setItemCaptionPropertyId("megnevezes");
 		dokumentumTipusCombo.setConverter(new SingleSelectConverter(dokumentumTipusCombo));
-		editFields.addComponents(dokumentumTipusCombo);
-		editorFields.bind(dokumentumTipusCombo, "dokumentum_tipus");	
+		//editFields.addComponents(dokumentumTipusCombo);
+		//editorFields.bind(dokumentumTipusCombo, "dokumentum_tipus");	
 		
-		editorFields.setBuffered(false);		
-		editFields.setSizeUndefined();
-		editFields.setMargin(true);
-		layout.addComponent(editFields);
+		editorFields.setBuffered(false);	
+
+		feltoltButton = new Button("Feltölt");
+		
+		panelContent.addComponents(upload,feltoltButton,dokumentumTipusCombo);
+		panel.setContent(panelContent);
+		layout.addComponent(panel);
+		
+		
+		//editFields.setSizeUndefined();
+		//editFields.setMargin(true);
+		//layout.addComponent(editFields);
 		
         setSizeFull();
         layout.setSizeFull();
@@ -191,6 +211,9 @@ public class DokumentumokComponent  extends CustomComponent {
 		
 		deleteButton.addClickListener(new ClickListener() {
 			public void buttonClick(ClickEvent event) {
+				
+				//ConfirmationDialogPopupWindow confirmationPopup = new ConfirmationDialogPopupWindow("File already exists.Do you want to replace?");
+				
 				boolean ok = true;
 				Object contactId = dokumentumokTable.getValue();
 				Item currentItem = dokumentumokTable.getItem(contactId);

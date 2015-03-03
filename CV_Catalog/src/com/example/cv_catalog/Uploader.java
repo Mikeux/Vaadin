@@ -22,39 +22,17 @@ public class Uploader implements Receiver, SucceededListener {
 	private String FileName = "";
 		
 	public OutputStream receiveUpload(String filename,String mimeType) {
-		
-		//https://vaadin.com/book/vaadin6/-/page/application.resources.html
-		//https://vaadin.com/book/-/page/application.resources.html
-		
-		// Find the application directory
-				
-		// Image as a file resource
-		//FileResource resource = new FileResource(new File(basepath + "/WEB-INF/images/image.png"));
-		
-		// Show the image in the application
-		//Image image = new Image("Image from file", resource);
-		        
-		// Let the user view the file in browser or download it
-		//Link link = new Link("Link to the image file", resource);
-		
-		/*Oneletrajz cv = new Oneletrajz();
-		cv.setFelhasznalok(u.LoginFelhasznalo);
-		cv.setHozzaadva(new java.util.Date());
-		u.EM.getTransaction().begin();
-		u.EM.persist(cv);
-		u.EM.getTransaction().commit();	*/	
-		
-		//u.uzen("PATH => "+VaadinService.getCurrent().getBaseDirectory().getAbsolutePath());
-		
-		FileOutputStream fos = null; // Stream to write to
-		//File folder = new File ( System.getProperty( "user.home" ) + File.separator + "myfolder" ).mkdir();
+
+		FileOutputStream fos = null;
 				
 		try {
-			this.FileName = filename;
-			file = new File(u.basepath + "/Dokumentumok/"+this.oneletrajz.getId()+"/" + filename);
-			fos = new FileOutputStream(file);
-
-			
+			if(dok_tipus != null){
+				this.FileName = filename;
+				file = new File(u.basepath + "/Dokumentumok/"+this.oneletrajz.getId()+"/" + filename);
+				fos = new FileOutputStream(file);
+			} else {
+				u.uzen("A csatolmány típusa nincs megadva!");
+			}
 		} catch (final java.io.FileNotFoundException e) {
 			new Notification("A fájl feltöltése nem sikerült<br/>",
 					e.getMessage(),
