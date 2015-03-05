@@ -8,7 +8,15 @@
   @include cv_catalog;
 }
 
+.mainLayout {
+    border: #cedcf2 solid 1px;
+    background-color: #E5E5E5;
+    color:black;
+}
 
+.gombok {
+ 	margin-bottom: 5px;
+ }
 
 .layout_border {
     border: #cedcf2 solid 1px;

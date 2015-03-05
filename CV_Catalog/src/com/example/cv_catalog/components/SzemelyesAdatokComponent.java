@@ -4,6 +4,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
+import com.example.cv_catalog.ConfirmationDialog;
+import com.example.cv_catalog.ConfirmationDialog.ConfirmationDialogCallback;
+import com.example.cv_catalog.u;
 import com.example.cv_catalog.model.Nyelvek;
 import com.example.cv_catalog.model.Oneletrajz;
 import com.example.cv_catalog.model.Orszagok;
@@ -169,8 +172,18 @@ public class SzemelyesAdatokComponent extends CustomComponent {
 			public void buttonClick(ClickEvent event) {
 				szemelyesAdatok.commit();
 				szemelyesAdatokTable.refreshRowCache();
+				
+				ConfirmationDialog cd = new ConfirmationDialog("Létezõ csatolmány", "Valóban felül akarod írni a fájlt?",
+		                "Igen", "Nem", new ConfirmationDialogCallback(){
+							@Override
+							public void response(boolean ok) {
+								u.uzen(ok+"");
+							}});
+				getUI().addWindow(cd);
+		        //cd.bringToFront();
 			}
 		});
+		
 	}
 	
 }

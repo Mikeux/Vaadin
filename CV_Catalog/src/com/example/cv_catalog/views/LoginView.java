@@ -14,6 +14,7 @@ import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Panel;
+import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Button.ClickEvent;
@@ -21,7 +22,8 @@ import com.vaadin.ui.Button.ClickEvent;
 public class LoginView extends VerticalLayout implements View {
 
 	public static final String NAME = "login";
-	TextField jelszo,nev;
+	TextField nev;
+	PasswordField jelszo;
 	Button belepes;
 	
 	public LoginView(){
@@ -43,7 +45,7 @@ public class LoginView extends VerticalLayout implements View {
 		nev.setRequired(true);
 		//nev.focus();
 		
-		jelszo = new TextField("Jelszó:");
+		jelszo = new PasswordField("Jelszó:");
 		jelszo.setIcon(FontAwesome.LOCK);
 		jelszo.setRequired(true);
 		
