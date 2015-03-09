@@ -172,14 +172,7 @@ public class SzemelyesAdatokComponent extends CustomComponent {
 			public void buttonClick(ClickEvent event) {
 				szemelyesAdatok.commit();
 				szemelyesAdatokTable.refreshRowCache();
-				
-				ConfirmationDialog cd = new ConfirmationDialog("Létezõ csatolmány", "Valóban felül akarod írni a fájlt?",
-		                "Igen", "Nem", new ConfirmationDialogCallback(){
-							@Override
-							public void response(boolean ok) {
-								u.uzen(ok+"");
-							}});
-				getUI().addWindow(cd);
+
 		        //cd.bringToFront();
 			}
 		});

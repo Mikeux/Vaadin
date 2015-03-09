@@ -9,7 +9,9 @@ import java.util.Locale;
 
 import javax.persistence.Query;
 
+import com.example.cv_catalog.ConfirmationDialog;
 import com.example.cv_catalog.u;
+import com.example.cv_catalog.ConfirmationDialog.ConfirmationDialogCallback;
 import com.example.cv_catalog.model.Felhasznalok;
 import com.example.cv_catalog.model.KepzesSzint;
 import com.example.cv_catalog.model.Nyelvek;
@@ -219,28 +221,35 @@ public class Oneletrajzok extends VerticalLayout implements View {
 		});
 		
 		removeButton.addClickListener(new ClickListener() {
-			public void buttonClick(ClickEvent event) {
+			public void buttonClick(ClickEvent event) {				
 				Object sor = oneletrajzokTable.getValue();
-				Object id;
-				if(sor != null) {
-					try {			
-						id = oneletrajzok.getItem(sor).getItemProperty("id").getValue();
-						u.EM.getTransaction().begin();
-						u.EM.createQuery("DELETE FROM Oneletrajz o WHERE o.id="+id).executeUpdate();
-						u.EM.createQuery("DELETE FROM Nyelvismeret nyi WHERE nyi.oneletrajz.id="+id).executeUpdate();
-						u.EM.createQuery("DELETE FROM SzemelyesAdatok sza WHERE sza.oneletrajz.id="+id).executeUpdate();
-						u.EM.createQuery("DELETE FROM SzakmaiTapasztalat szt WHERE szt.oneletrajz.id="+id).executeUpdate();
-						u.EM.createQuery("DELETE FROM Tanulmanyok ta WHERE ta.oneletrajz.id="+id).executeUpdate();
-						u.EM.createQuery("DELETE FROM EgyebKeszsegek ek WHERE ek.oneletrajz.id="+id).executeUpdate();
-						u.EM.createQuery("DELETE FROM Dokumentumok ek WHERE ek.oneletrajz.id="+id).executeUpdate();
-						u.EM.getTransaction().commit();
-						adatotOsszeallit();
-						oneletrajzokTable.setContainerDataSource(oneletrajzok);
-						if(oneletrajzok.size()  > 0) oneletrajzokTable.select(oneletrajzok.getIdByIndex(0));	
-						u.uzen("Sikeres törlés!");
-					} catch(Exception ex) {
-						Notification.show("Törlése nem sikerült", Notification.TYPE_ERROR_MESSAGE);
-					}
+				if(sor != null) {				
+					ConfirmationDialog cd = new ConfirmationDialog("Törlés", "Valóban törölni akarj az önéletrajzot?","Igen", "Nem", new ConfirmationDialogCallback(){
+						@Override
+						public void response(boolean ok) {
+							if(ok){
+								try {			
+									Object id = oneletrajzok.getItem(sor).getItemProperty("id").getValue();
+									u.EM.getTransaction().begin();
+									u.EM.createQuery("DELETE FROM Oneletrajz o WHERE o.id="+id).executeUpdate();
+									u.EM.createQuery("DELETE FROM Nyelvismeret nyi WHERE nyi.oneletrajz.id="+id).executeUpdate();
+									u.EM.createQuery("DELETE FROM SzemelyesAdatok sza WHERE sza.oneletrajz.id="+id).executeUpdate();
+									u.EM.createQuery("DELETE FROM SzakmaiTapasztalat szt WHERE szt.oneletrajz.id="+id).executeUpdate();
+									u.EM.createQuery("DELETE FROM Tanulmanyok ta WHERE ta.oneletrajz.id="+id).executeUpdate();
+									u.EM.createQuery("DELETE FROM EgyebKeszsegek ek WHERE ek.oneletrajz.id="+id).executeUpdate();
+									u.EM.createQuery("DELETE FROM Dokumentumok ek WHERE ek.oneletrajz.id="+id).executeUpdate();
+									u.EM.getTransaction().commit();
+									adatotOsszeallit();
+									oneletrajzokTable.setContainerDataSource(oneletrajzok);
+									if(oneletrajzok.size()  > 0) oneletrajzokTable.select(oneletrajzok.getIdByIndex(0));	
+									u.uzen("Sikeres törlés!");
+								} catch(Exception ex) {
+									Notification.show("Törlése nem sikerült", Notification.TYPE_ERROR_MESSAGE);
+								}
+							}
+						}});
+					getUI().addWindow(cd);
+
 				}
 				else {
 					u.uzen("Nincs kiválasztott elem!");

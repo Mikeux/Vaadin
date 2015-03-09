@@ -1,5 +1,6 @@
 package com.example.cv_catalog;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
@@ -18,38 +19,52 @@ public class Uploader implements Receiver, SucceededListener {
 	public File file;
 	public Oneletrajz oneletrajz;
 	public DokumentumTipus dok_tipus;
-	
+	private String Hiba = "";
 	private String FileName = "";
 		
 	public OutputStream receiveUpload(String filename,String mimeType) {
 		File Dir = new File(u.basepath + "/Dokumentumok/"+this.oneletrajz.getId());
 		FileOutputStream fos = null;
-				
-		try {
-			if(!Dir.exists()) Dir.mkdirs();
-			
-			if(dok_tipus != null){
-				this.FileName = filename;
-				file = new File(u.basepath + "/Dokumentumok/"+this.oneletrajz.getId()+"/" + filename);
-				fos = new FileOutputStream(file);
-			} else {
-				u.uzen("A csatolmány típusa nincs megadva!");
+		this.Hiba = "";
+		
+		try {			
+			if(filename.equals("")){
+				this.Hiba = "Nincs fájl kiválasztva!";
+			}else {
+				if(!Dir.exists()) Dir.mkdirs();
+				if(dok_tipus != null){
+					this.FileName = filename;
+					file = new File(u.basepath + "/Dokumentumok/"+this.oneletrajz.getId()+"/" + filename);
+					if(file.exists()){
+						this.Hiba = "Már létezik a fájl!";
+					}else {
+						fos = new FileOutputStream(file);
+					}
+				} else {
+					this.Hiba = "A csatolmány típusa nincs megadva!";
+				}				
 			}
-		} catch (final java.io.FileNotFoundException e) {
-			new Notification("A fájl feltöltése nem sikerült<br/>",
-					e.getMessage(),
-					Notification.Type.ERROR_MESSAGE).show(Page.getCurrent());
-			return null;
+		} catch (Exception e) {
+			this.Hiba = "A fájl feltöltése nem sikerült!\r\n"+e.getMessage();
 		}
-		return fos; // Return the output stream to write to
+		
+		if(this.Hiba.equals("")) {
+			return fos; 
+		}
+		else {
+			u.uzenHiba("Hiba", this.Hiba);
+			return new ByteArrayOutputStream();
+		}
 	}
 
 	@Override
 	public void uploadSucceeded(SucceededEvent event) {
-		new Notification("Sikeres csatolmány feltöltés!",Notification.TYPE_HUMANIZED_MESSAGE).show(Page.getCurrent());
-		Dokumentumok dok = new Dokumentumok(this.oneletrajz,dok_tipus,this.FileName);
-		u.EM.getTransaction().begin();
-		u.EM.persist(dok);
-		u.EM.getTransaction().commit();
+		if(this.Hiba == ""){
+			new Notification("Sikeres csatolmány feltöltés!",Notification.TYPE_HUMANIZED_MESSAGE).show(Page.getCurrent());
+			Dokumentumok dok = new Dokumentumok(this.oneletrajz,dok_tipus,this.FileName);
+			u.EM.getTransaction().begin();
+			u.EM.persist(dok);
+			u.EM.getTransaction().commit();
+		}
 	}
 };

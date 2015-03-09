@@ -10,29 +10,14 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
 public final class ConfirmationDialog extends Window implements Button.ClickListener {
-    /** Confirmation dialog width. */
     private static final int CONFIRMATION_DIALOG_HEIGHT = 140;
-    /** Confirmation dialog height. */
     private static final int CONFIRMATION_DIALOG_WIDTH = 250;
-    /** Constant for 100 percent value used in dialog main layout width. */
     private static final int ONE_HUNDRED_PERCENT = 100;
-    /** Serial version UID.*/
     private static final long serialVersionUID = 1L;
-    /** The confirmation callback. */
     private final ConfirmationDialogCallback callback;
-    /** Yes button. */
     private final Button okButton;
-    /** No button. */
     private final Button cancelButton;
 
-    /**
-     * Constructor for configuring confirmation dialog.
-     * @param caption the dialog caption.
-     * @param question the question.
-     * @param okLabel the Ok button label.
-     * @param cancelLabel the cancel button label.
-     * @param callback the callback.
-     */
     public ConfirmationDialog(final String caption, final String question,
     		final String okLabel, final String cancelLabel, final ConfirmationDialogCallback callback) {
         super(caption);

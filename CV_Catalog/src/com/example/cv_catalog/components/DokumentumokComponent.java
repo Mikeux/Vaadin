@@ -157,6 +157,7 @@ public class DokumentumokComponent  extends CustomComponent {
 		feltoltButton.addClickListener(new ClickListener() {
 			public void buttonClick(ClickEvent event) {
 				Object Id = dokumentumTipusCombo.getValue();
+
 				if(Id == null) u.uzenHiba("Hiba", "A dokumentum típusának megadása kötelezõ!");
 				else {
 					upload.submitUpload();
