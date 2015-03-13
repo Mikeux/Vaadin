@@ -27,10 +27,16 @@ public class Uploader implements Receiver, SucceededListener {
 		FileOutputStream fos = null;
 		this.Hiba = "";
 		
-		try {			
+		if(this.dok_tipus.getId() == 1){
+			if(!mimeType.equalsIgnoreCase("image/jpeg") && !mimeType.equalsIgnoreCase("image/png")) {
+				this.Hiba = "A kiválasztott kép nem megfelelõ típusú! (jpg,png)";
+			}
+		}
+		
+		try {
 			if(filename.equals("")){
 				this.Hiba = "Nincs fájl kiválasztva!";
-			}else {
+			} else if(this.Hiba.equals("")) {
 				if(!Dir.exists()) Dir.mkdirs();
 				if(dok_tipus != null){
 					this.FileName = filename;
@@ -50,8 +56,7 @@ public class Uploader implements Receiver, SucceededListener {
 		
 		if(this.Hiba.equals("")) {
 			return fos; 
-		}
-		else {
+		} else {
 			u.uzenHiba("Hiba", this.Hiba);
 			return new ByteArrayOutputStream();
 		}

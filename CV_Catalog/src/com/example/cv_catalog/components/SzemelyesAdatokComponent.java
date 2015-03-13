@@ -1,5 +1,6 @@
 package com.example.cv_catalog.components;
 
+import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
@@ -7,6 +8,7 @@ import java.util.Locale;
 import com.example.cv_catalog.ConfirmationDialog;
 import com.example.cv_catalog.ConfirmationDialog.ConfirmationDialogCallback;
 import com.example.cv_catalog.u;
+import com.example.cv_catalog.model.Dokumentumok;
 import com.example.cv_catalog.model.Nyelvek;
 import com.example.cv_catalog.model.Oneletrajz;
 import com.example.cv_catalog.model.Orszagok;
@@ -21,11 +23,19 @@ import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.util.converter.StringToDateConverter;
 import com.vaadin.data.util.filter.Compare;
+import com.vaadin.server.ClassResource;
+import com.vaadin.server.FileResource;
+import com.vaadin.server.StreamResource;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.DateField;
+import com.vaadin.ui.Embedded;
 import com.vaadin.ui.FormLayout;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Image;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
@@ -34,8 +44,10 @@ import com.vaadin.ui.Button.ClickListener;
 
 public class SzemelyesAdatokComponent extends CustomComponent {
 	private FormLayout editFields = new FormLayout();
+	private FormLayout ImageFields = new FormLayout();
 	private VerticalLayout layout = new VerticalLayout();
-
+	private HorizontalLayout layout2 = new HorizontalLayout();
+	
 	private JPAContainer<Nyelvek> nyelvek;
 	private JPAContainer<Orszagok> orszagok;
 	private JPAContainer<SzemelyesAdatok> szemelyesAdatok;
@@ -140,11 +152,15 @@ public class SzemelyesAdatokComponent extends CustomComponent {
 		editFields.addComponents(nyelvekCombo);
 		editorFields.bind(nyelvekCombo, "nyelvek");	
 		
+		ImageFields.setSizeFull();
+		ImageFields.setMargin(false);
 		
 		editorFields.setBuffered(false);		
 		editFields.setSizeUndefined();
 		editFields.setMargin(true);
-		layout.addComponent(editFields);
+		//layout.addComponents(editFields,ImageFields);
+		layout2.addComponents(editFields,ImageFields);
+		layout.addComponent(layout2);
 		
         setSizeFull();
         layout.setSizeFull();
@@ -160,7 +176,27 @@ public class SzemelyesAdatokComponent extends CustomComponent {
         //layout.addComponent(new Label());
 	}
 	
-	public void init(){
+	public void init() {
+		
+		//Elsõ fénykép betöltése
+		String file = u.basepath+"/WEB-INF/default_kep/hu.jpg";
+		JPAContainer<Dokumentumok> dokumentumok = JPAContainerFactory.make(Dokumentumok.class, "CV_Catalog");
+		dokumentumok.addNestedContainerProperty("oneletrajz.id");
+		dokumentumok.addNestedContainerProperty("dokumentum_tipus.id");
+		Filter filter = new Compare.Equal("oneletrajz.id", cv.getId());
+		Filter filter2 = new Compare.Equal("dokumentum_tipus.id", 1);
+		dokumentumok.addContainerFilter(filter);		
+		dokumentumok.addContainerFilter(filter2);	
+		if(dokumentumok.size() > 0){
+			file = u.basepath+"/Dokumentumok/"+this.cv.getId()+"/"+
+					dokumentumok.getContainerProperty(dokumentumok.getIdByIndex(0), "fajlNeve").getValue();
+		}
+		FileResource resource = new FileResource(new File(file));
+		Embedded image = new Embedded("", resource);
+		image.addStyleName("fenykep_img");
+		image.setType(Embedded.TYPE_IMAGE);
+		ImageFields.addComponent(image);
+		
 		szemelyesAdatokTable.setConverter("szulIdo", new StringToDateConverter() {
             @Override
             protected DateFormat getFormat(Locale locale) {
